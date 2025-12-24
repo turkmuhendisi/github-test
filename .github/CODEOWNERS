@@ -1,0 +1,38 @@
+# .github/CODEOWNERS
+# Sözdizimi: [Dosya Yolu] [Sorumlu GitHub Kullanıcıları]
+
+# --------------------------------------------------------
+# 0. GLOBAL KORUMA
+# Projedeki her dosyadan varsayılan olarak Tech Lead sorumludur.
+# --------------------------------------------------------
+* @turkmuhendisi
+
+# --------------------------------------------------------
+# 1. KRİTİK ALTYAPI (Strict Control)
+# Bu dosyalara dokunulduğunda Tech Lead onayı ZORUNLUDUR.
+# Juniorlar buraya kafasına göre dokunamaz.
+# --------------------------------------------------------
+/config/          @turkmuhendisi
+/infra/           @turkmuhendisi
+/secure/          @turkmuhendisi
+/tools/           @turkmuhendisi
+makefile          @turkmuhendisi
+pyproject.toml    @turkmuhendisi
+
+# --------------------------------------------------------
+# 2. BACKEND SERVİSLERİ (Business Logic)
+# Servislerdeki değişiklikler Backend Lead veya Tech Lead onayı ister.
+# --------------------------------------------------------
+/services/        @turkmuhendisi
+
+# --------------------------------------------------------
+# 3. WEB UYGULAMASI (Frontend/Template)
+# Arayüz değişiklikleri. İlerde Frontend Lead eklenebilir.
+# --------------------------------------------------------
+/webapp/          @turkmuhendisi
+
+# --------------------------------------------------------
+# 4. TESTLER VE KALİTE
+# Test dosyalarının değişimi kontrol edilmelidir.
+# --------------------------------------------------------
+/tests/           @turkmuhendisi
