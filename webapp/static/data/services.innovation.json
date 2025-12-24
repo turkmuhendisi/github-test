@@ -1,0 +1,148 @@
+{
+  "hubId": "innovation",
+  "hubAd": "Innovation Hub",
+  "anaHizmetler": [
+    {
+      "id": "arge-strateji",
+      "ad": "Ar-Ge Strateji & Yol Haritası",
+      "aciklama": "TRL 1-7 arasında teknoloji olgunluk planlaması ve yol haritası oluşturma",
+      "altHizmetler": [
+        {
+          "id": "fikir-platformu",
+          "ad": "Fikir Platformu",
+          "aciklama": "İç inovasyon çağrıları, fikir havuzu kurma"
+        },
+        {
+          "id": "proje-roadmap",
+          "ad": "Proje Yol Haritası",
+          "aciklama": "Teknoloji yol haritası, kilometre taşları"
+        },
+        {
+          "id": "yetkinlik-haritasi",
+          "ad": "Yetkinlik Haritası",
+          "aciklama": "Ar-Ge ekibi yetkinlik analizi & ihtiyaç matrisi"
+        }
+      ]
+    },
+
+    {
+      "id": "fon-arastirma",
+      "ad": "Ar-Ge Fon & Program Araştırması",
+      "aciklama": "Ulusal-uluslararası inovasyon çağrılarının izlemesi, eşleştirme ve başlatma",
+      "altHizmetler": [
+        {
+          "id": "eic",
+          "ad": "EIC Accelerator",
+          "aciklama": "Derin teknoloji start-upları için hibe + sermaye"
+        },
+        {
+          "id": "eureka",
+          "ad": "EUREKA / Eurostars",
+          "aciklama": "KOBİ odaklı Ar-Ge ortaklık projeleri"
+        },
+        {
+          "id": "eranet",
+          "ad": "ERA-NET",
+          "aciklama": "Tematik ağlarda çoklu ortak Ar-Ge destekleri"
+        },
+        {
+          "id": "ulusal-arge",
+          "ad": "Ulusal Ar-Ge Destekleri",
+          "aciklama": "TÜBİTAK TEYDEB 1501-1507, Sanayi Ar-Ge"
+        }
+      ]
+    },
+
+    {
+      "id": "urun-gelistirme",
+      "ad": "Ürün İnovasyonu & Hızlı Prototipleme",
+      "aciklama": "Design Thinking tabanlı konsept geliştirme, MVP ve kullanıcı doğrulaması",
+      "altHizmetler": [
+        {
+          "id": "design-thinking",
+          "ad": "Design Thinking Atölyesi",
+          "aciklama": "Empati haritası, persona ve ideasyon oturumları"
+        },
+        {
+          "id": "rapid-proto",
+          "ad": "Hızlı Prototipleme",
+          "aciklama": "3D baskı, elektronik kart ve yazılım prototipleri"
+        },
+        {
+          "id": "user-testing",
+          "ad": "Kullanıcı Testleri",
+          "aciklama": "UX benchmark, A/B testi, geri bildirim döngüleri"
+        }
+      ]
+    },
+
+    {
+      "id": "fikri-haklar",
+      "ad": "Patent & Fikri Sınai Haklar",
+      "aciklama": "Buluş tespiti, patent hazırlığı ve ticarileştirme stratejileri",
+      "altHizmetler": [
+        {
+          "id": "patent-arastirma",
+          "ad": "Patent Araştırma",
+          "aciklama": "Ön araştırma, engel analizi, FTO raporu"
+        },
+        {
+          "id": "patent-basvuru",
+          "ad": "Patent / Faydalı Model",
+          "aciklama": "Teknik doküman hazırlığı, başvuru yönetimi"
+        },
+        {
+          "id": "marka-tescil",
+          "ad": "Marka & Tasarım Tescili",
+          "aciklama": "Nice sınıflandırma, görsel inceleme, WIPO süreçleri"
+        }
+      ]
+    },
+
+    {
+      "id": "acik-inovasyon",
+      "ad": "Açık İnovasyon Programları",
+      "aciklama": "Dış paydaşlarla birlikte yenilik geliştirme ve kitle kaynak kullanımı",
+      "altHizmetler": [
+        {
+          "id": "hackathon",
+          "ad": "Hackathon & Ideathon",
+          "aciklama": "48-72 saatlik hızlandırılmış problem çözme etkinlikleri"
+        },
+        {
+          "id": "crowd",
+          "ad": "Crowdsourcing Platformu",
+          "aciklama": "Topluluk katkılı ürün/özellik önerisi toplama"
+        },
+        {
+          "id": "startup-open",
+          "ad": "Kurumsal Start-up Programı",
+          "aciklama": "PoC eşleştirme, kurum-start-up iş birliği çerçevesi"
+        }
+      ]
+    },
+
+    {
+      "id": "startup-hizlandirma",
+      "ad": "Start-up Hızlandırma & Yatırım Hazırlığı",
+      "aciklama": "Erken aşama girişimlere mentorluk, yatırım sunumu ve ağ erişimi",
+      "altHizmetler": [
+        {
+          "id": "mentor",
+          "ad": "Mentor Havuzu & Koçluk",
+          "aciklama": "Teknik, iş geliştirme ve finans mentorluk seansları"
+        },
+        {
+          "id": "yatirim-pitch",
+          "ad": "Yatırım Pitch Hazırlığı",
+          "aciklama": "Pitch deck, finans projeksiyonu, değerleme modeli"
+        },
+        {
+          "id": "demo-day",
+          "ad": "Demo Day & Matchmaking",
+          "aciklama": "Yatırımcı buluşmaları, demo sahnesi, takip görüşmeleri"
+        }
+      ]
+    }
+  ]
+}

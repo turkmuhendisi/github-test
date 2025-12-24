@@ -1,0 +1,30 @@
+# =============================================================================
+# GLOBALMAIN - DATA REQUIREMENTS
+# =============================================================================
+# Database ve cache bağımlılıkları
+# PostgreSQL, Redis, Celery
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# POSTGRESQL
+# -----------------------------------------------------------------------------
+psycopg2-binary>=2.9.9        # PostgreSQL adapter (binary - kolay kurulum)
+# psycopg2>=2.9.9             # Production için source compile versiyonu
+
+# Yeni psycopg3 (opsiyonel - daha modern)
+# psycopg[binary]>=3.1.0
+
+# -----------------------------------------------------------------------------
+# REDIS
+# -----------------------------------------------------------------------------
+redis>=5.0.0                  # Redis Python client
+django-redis>=5.4.0           # Django cache backend
+hiredis>=2.3.0                # Redis parser (performans artışı)
+
+# -----------------------------------------------------------------------------
+# CELERY (Async Tasks)
+# -----------------------------------------------------------------------------
+celery>=5.4.0                 # Task queue
+django-celery-beat>=2.6.0     # Periyodik görevler
+django-celery-results>=2.5.1  # Task sonuçları database'de
+

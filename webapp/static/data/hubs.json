@@ -1,0 +1,12 @@
+[
+  { "id": "project", "ad": "Project HUB" },
+  { "id": "innovation", "ad": "Innovation HUB" },
+  { "id": "communication", "ad": "Communication HUB" },
+  { "id": "network", "ad": "Network HUB" },
+  { "id": "nos", "ad": "Network Organization" },
+  { "id": "funding", "ad": "Funding HUB" },
+  { "id": "ops", "ad": "Operations HUB" },
+  { "id": "data", "ad": "Data HUB" },
+  { "id": "compliance", "ad": "Compliance HUB" },
+  { "id": "training", "ad": "Training HUB" }
+]

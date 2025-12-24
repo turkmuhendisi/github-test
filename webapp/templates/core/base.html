@@ -1,0 +1,280 @@
+{% load static %}
+{# =============================================================================
+   ASRIN CORE - Base Template
+   ==========================
+   
+   Merkezi Ayar Yönetim Sistemi Ana Template'i
+   
+   Bu template tüm projeler tarafından kalıtım alınacak ana şablondur.
+   Yeni projeler bu template'i extend ederek kendi özelleştirmelerini yapabilir.
+   
+   Kullanım (Yeni Projede):
+   -----------------------
+   {% extends "core/base.html" %}
+   
+   {% block title %}Proje Sayfası{% endblock %}
+   
+   {% block content %}
+   <h1>Proje İçeriği</h1>
+   {% endblock %}
+   
+   Bloklar:
+   --------
+   - title: Sayfa başlığı
+   - meta_tags: Ekstra meta tag'ler
+   - page_css: Sayfa özel CSS
+   - header: Sayfa header'ı
+   - navbar: Navigation bar
+   - breadcrumb: Breadcrumb navigasyonu
+   - content: Ana içerik
+   - sidebar: Yan panel (opsiyonel)
+   - footer: Sayfa footer'ı
+   - page_js: Sayfa özel JavaScript
+   - extra_js: İlave JavaScript
+============================================================================= #}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'tr' }}" dir="ltr">
+<head>
+    {# ===== META TAGS ===== #}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    {# SEO Meta Tags #}
+    <meta name="description" content="{% block meta_description %}Asrın Global - Enterprise Django Framework{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}django, enterprise, asrin global{% endblock %}">
+    <meta name="author" content="{% block meta_author %}Asrın Global{% endblock %}">
+    <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}">
+    
+    {# Open Graph #}
+    <meta property="og:title" content="{% block og_title %}{% block title %}Asrın Global{% endblock %}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ block.super }}{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="{{ LANGUAGE_CODE|default:'tr_TR' }}">
+    
+    {# Favicon #}
+    {% block favicon %}
+    <link rel="icon" type="image/x-icon" href="{% static 'core/images/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'core/images/apple-touch-icon.png' %}">
+    {% endblock %}
+    
+    {# Page Title #}
+    <title>{% block full_title %}{% block title_prefix %}{% endblock %}{% block title %}Asrın Global{% endblock %}{% block title_suffix %} | Asrın Global{% endblock %}{% endblock %}</title>
+    
+    {# Extra Meta Tags (Project Override) #}
+    {% block meta_tags %}{% endblock %}
+    
+    {# ===== CSS ===== #}
+    {# Core CSS Variables #}
+    <style>
+        :root {
+            /* Asrın Global Renk Paleti */
+            --ag-primary: #ECAD29;
+            --ag-primary-dark: #C9930E;
+            --ag-primary-light: #F5C95A;
+            --ag-secondary: #1a1a2e;
+            --ag-accent: #16213e;
+            --ag-success: #28a745;
+            --ag-warning: #ffc107;
+            --ag-danger: #dc3545;
+            --ag-info: #17a2b8;
+            
+            /* Neutral Colors */
+            --ag-white: #ffffff;
+            --ag-light: #f8f9fa;
+            --ag-gray: #6c757d;
+            --ag-dark: #343a40;
+            --ag-black: #000000;
+            
+            /* Typography */
+            --ag-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --ag-font-size-base: 16px;
+            --ag-line-height: 1.6;
+            
+            /* Spacing */
+            --ag-spacing-xs: 0.25rem;
+            --ag-spacing-sm: 0.5rem;
+            --ag-spacing-md: 1rem;
+            --ag-spacing-lg: 1.5rem;
+            --ag-spacing-xl: 3rem;
+            
+            /* Border Radius */
+            --ag-radius-sm: 4px;
+            --ag-radius-md: 8px;
+            --ag-radius-lg: 16px;
+            --ag-radius-full: 9999px;
+            
+            /* Shadows */
+            --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --ag-shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --ag-shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            
+            /* Transitions */
+            --ag-transition-fast: 150ms ease;
+            --ag-transition-normal: 300ms ease;
+            --ag-transition-slow: 500ms ease;
+        }
+        
+        /* Dark Theme Variables */
+        [data-theme="dark"] {
+            --ag-bg-primary: #1a1a2e;
+            --ag-bg-secondary: #16213e;
+            --ag-text-primary: #ffffff;
+            --ag-text-secondary: #a0aec0;
+        }
+        
+        /* Reset & Base */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-size: var(--ag-font-size-base);
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--ag-font-family);
+            line-height: var(--ag-line-height);
+            background-color: var(--ag-light);
+            color: var(--ag-dark);
+        }
+    </style>
+    
+    {# Core Framework CSS #}
+    {% block core_css %}
+    {# Buraya merkezi CSS framework eklenebilir #}
+    {% endblock %}
+    
+    {# Page Specific CSS #}
+    {% block page_css %}{% endblock %}
+    
+    {# Extra CSS (Project Override) #}
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="{% block body_class %}ag-body{% endblock %}" data-theme="{% block theme %}light{% endblock %}">
+    {# ===== SKIP LINK (Accessibility) ===== #}
+    <a href="#main-content" class="skip-link">Ana içeriğe geç</a>
+    
+    {# ===== HEADER ===== #}
+    {% block header %}
+    <header class="ag-header" role="banner">
+        {% block navbar %}
+        <nav class="ag-navbar" role="navigation" aria-label="Ana navigasyon">
+            {% block navbar_content %}
+            {# Varsayılan navbar içeriği - override edilebilir #}
+            {% endblock %}
+        </nav>
+        {% endblock %}
+    </header>
+    {% endblock %}
+    
+    {# ===== BREADCRUMB ===== #}
+    {% block breadcrumb_wrapper %}
+    {% block breadcrumb %}{% endblock %}
+    {% endblock %}
+    
+    {# ===== MESSAGES (Django Messages Framework) ===== #}
+    {% block messages %}
+    {% if messages %}
+    <div class="ag-messages" role="alert" aria-live="polite">
+        {% for message in messages %}
+        <div class="ag-alert ag-alert-{{ message.tags }}" data-dismiss="true">
+            {{ message }}
+            <button type="button" class="ag-alert-close" aria-label="Kapat">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endblock %}
+    
+    {# ===== MAIN CONTENT ===== #}
+    <main id="main-content" class="ag-main" role="main">
+        {% block main_wrapper %}
+        <div class="ag-container">
+            {% block content_wrapper %}
+            
+            {# Page Header (Optional) #}
+            {% block page_header %}{% endblock %}
+            
+            {# Content Row #}
+            <div class="ag-content-row">
+                {# Main Content Area #}
+                <div class="ag-content {% block content_class %}{% endblock %}">
+                    {% block content %}
+                    {# Ana içerik buraya gelecek #}
+                    {% endblock %}
+                </div>
+                
+                {# Sidebar (Optional) #}
+                {% block sidebar_wrapper %}
+                {% block sidebar %}{% endblock %}
+                {% endblock %}
+            </div>
+            
+            {% endblock %}
+        </div>
+        {% endblock %}
+    </main>
+    
+    {# ===== FOOTER ===== #}
+    {% block footer %}
+    <footer class="ag-footer" role="contentinfo">
+        {% block footer_content %}
+        <div class="ag-container">
+            <p>&copy; {% now "Y" %} Asrın Global. Tüm hakları saklıdır.</p>
+        </div>
+        {% endblock %}
+    </footer>
+    {% endblock %}
+    
+    {# ===== MODALS ===== #}
+    {% block modals %}{% endblock %}
+    
+    {# ===== JAVASCRIPT ===== #}
+    {# Core JavaScript #}
+    {% block core_js %}
+    <script>
+        // Asrın Global Core JS
+        (function() {
+            'use strict';
+            
+            // Theme Toggle
+            window.AG = window.AG || {};
+            
+            AG.toggleTheme = function() {
+                const body = document.body;
+                const current = body.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                body.setAttribute('data-theme', next);
+                localStorage.setItem('ag-theme', next);
+            };
+            
+            // Alert Dismiss
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('ag-alert-close')) {
+                    e.target.closest('.ag-alert').remove();
+                }
+            });
+            
+            // Load saved theme
+            const savedTheme = localStorage.getItem('ag-theme');
+            if (savedTheme) {
+                document.body.setAttribute('data-theme', savedTheme);
+            }
+        })();
+    </script>
+    {% endblock %}
+    
+    {# Page Specific JavaScript #}
+    {% block page_js %}{% endblock %}
+    
+    {# Extra JavaScript (Project Override) #}
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+

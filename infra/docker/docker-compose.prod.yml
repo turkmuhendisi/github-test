@@ -1,0 +1,174 @@
+# =============================================================================
+# PRODUCTION DOCKER COMPOSE
+# =============================================================================
+# Kullanım: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#
+# NOT: version directive artık Docker Compose V2'de kullanılmıyor.
+# docker-compose.yml ile tutarlılık için kaldırıldı.
+# =============================================================================
+
+services:
+  # ===========================================================================
+  # DJANGO WEB APPLICATION (Production)
+  # ===========================================================================
+  web:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.prod
+    container_name: globalmain_web_prod
+    restart: always
+    environment:
+      - DJANGO_ENV=production
+      - DJANGO_DEBUG=False
+      - DOCKER_MODE=True
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=${DB_NAME:-globalmain}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_ANALYTICS_ENABLED=True
+      - DB_ANALYTICS_NAME=${DB_ANALYTICS_NAME:-globalmain_analytics}
+      - DB_ANALYTICS_HOST=db-analytics
+      - DB_ANALYTICS_PORT=5432
+      - DB_LOGS_ENABLED=True
+      - DB_LOGS_NAME=${DB_LOGS_NAME:-globalmain_logs}
+      - DB_LOGS_HOST=db-logs
+      - DB_LOGS_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+      - SENTRY_DSN=${SENTRY_DSN:-}
+    expose:
+      - "8000"
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - logs_volume:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - globalmain_network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # ===========================================================================
+  # NGINX (Reverse Proxy)
+  # ===========================================================================
+  nginx:
+    image: nginx:alpine
+    container_name: globalmain_nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - ../nginx/conf.d:/etc/nginx/conf.d:ro
+      - static_volume:/app/staticfiles:ro
+      - media_volume:/app/media:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - web
+    networks:
+      - globalmain_network
+
+  # ===========================================================================
+  # DATABASE SERVICES (Production)
+  # ===========================================================================
+  db:
+    extends:
+      file: docker-compose.yml
+      service: db
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  db-analytics:
+    extends:
+      file: docker-compose.yml
+      service: db-analytics
+    profiles: []
+    restart: always
+
+  db-logs:
+    extends:
+      file: docker-compose.yml
+      service: db-logs
+    profiles: []
+    restart: always
+
+  # ===========================================================================
+  # REDIS (Production)
+  # ===========================================================================
+  redis:
+    extends:
+      file: docker-compose.yml
+      service: redis
+    restart: always
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+
+  # ===========================================================================
+  # CELERY WORKER (Production)
+  # ===========================================================================
+  celery:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.prod
+    container_name: globalmain_celery_prod
+    restart: always
+    environment:
+      - DJANGO_ENV=production
+      - DOCKER_MODE=True
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    depends_on:
+      - redis
+      - db
+    networks:
+      - globalmain_network
+    command: celery -A config.hub.celery worker --loglevel=INFO --concurrency=4
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+
+  # ===========================================================================
+  # CELERY BEAT (Production)
+  # ===========================================================================
+  celery-beat:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.prod
+    container_name: globalmain_celery_beat_prod
+    restart: always
+    environment:
+      - DJANGO_ENV=production
+      - DOCKER_MODE=True
+      - CELERY_BROKER_URL=redis://redis:6379/1
+    depends_on:
+      - redis
+      - celery
+    networks:
+      - globalmain_network
+    command: celery -A config.hub.celery beat --loglevel=INFO
+
+# =============================================================================
+# VOLUMES
+# =============================================================================
+volumes:
+  static_volume:
+  media_volume:
+  logs_volume:

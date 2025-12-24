@@ -1,0 +1,53 @@
+/* =====================================================================
+   ANA SAYFA SEKMESİ – Hizmetler / Mağaza ile AYNI BOY & ÇERÇEVE
+   ===================================================================== */
+.footer-tabs {
+  position: fixed;
+  bottom: 10px; /* 👈 Alt boşluk: 16px (istediğin kadar artırabilirsin) */
+  left: calc(350px + 120px); /* Sidebar + boşluk */
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  z-index: 1000;
+}
+
+/*━━━━━━━━  FOOTER CARD – cam arka plan + sarı çizgi ━━━━━━━━*/
+.footer-tabs .footer-card {
+  /* Arka plan */
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  /* Yalnız sağ–sol çizgi, sarı */
+  border: 0;
+  border-left: 2px solid var(--ag-yellow);
+  border-right: 2px solid var(--ag-yellow);
+  border-radius: 9999px;
+
+  /* Metin/ikon rengi */
+  color: var(--ag-yellow);
+  font: 600 0.95rem/1 "Inter", sans-serif;
+
+  /* Boyut & davranış */
+  min-width: 180px;
+  height: 38px;
+  margin-bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.footer-tabs .footer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+/* Ana-sayfa ikonu (dar) */
+.footer-tabs .footer-card.home-icon {
+  min-width: 72px;
+  padding: 0 18px;
+}
+.footer-tabs .footer-card.home-icon svg path {
+  fill: var(--ag-yellow);
+}
+

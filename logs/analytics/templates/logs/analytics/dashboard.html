@@ -1,0 +1,507 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }} | {{ site_header|default:_('Django administration') }}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    :root {
+        --bg-dark: #0f0f23;
+        --bg-card: #1a1a2e;
+        --bg-card-hover: #232342;
+        --text-primary: #f0f0f5;
+        --text-secondary: #8b8ba7;
+        --accent-blue: #4f8cff;
+        --accent-green: #00d26a;
+        --accent-yellow: #ffb800;
+        --accent-red: #ff4757;
+        --accent-purple: #a855f7;
+    }
+    
+    .analytics-container {
+        background: var(--bg-dark);
+        padding: 24px;
+        min-height: calc(100vh - 150px);
+        margin: 0 -40px;
+    }
+    
+    .analytics-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+    
+    .analytics-title {
+        color: var(--text-primary);
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin: 0;
+    }
+    
+    .time-selector {
+        display: flex;
+        gap: 8px;
+    }
+    
+    .time-btn {
+        background: var(--bg-card);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: var(--text-secondary);
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .time-btn:hover, .time-btn.active {
+        background: var(--accent-blue);
+        color: white;
+        border-color: var(--accent-blue);
+    }
+    
+    /* Stats Grid */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+    
+    .stat-card {
+        background: var(--bg-card);
+        border-radius: 12px;
+        padding: 20px;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .stat-label {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
+    
+    .stat-value {
+        color: var(--text-primary);
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+    
+    .stat-value.success { color: var(--accent-green); }
+    .stat-value.warning { color: var(--accent-yellow); }
+    .stat-value.error { color: var(--accent-red); }
+    .stat-value.info { color: var(--accent-blue); }
+    
+    .stat-change {
+        font-size: 0.75rem;
+        margin-top: 8px;
+    }
+    
+    .stat-change.positive { color: var(--accent-green); }
+    .stat-change.negative { color: var(--accent-red); }
+    
+    /* Charts */
+    .charts-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 24px;
+        margin-bottom: 24px;
+    }
+    
+    .chart-card {
+        background: var(--bg-card);
+        border-radius: 12px;
+        padding: 20px;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .chart-title {
+        color: var(--text-primary);
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0 0 16px 0;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+    }
+    
+    /* Tables */
+    .tables-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-bottom: 24px;
+    }
+    
+    .table-card {
+        background: var(--bg-card);
+        border-radius: 12px;
+        padding: 20px;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .table-title {
+        color: var(--text-primary);
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0 0 16px 0;
+    }
+    
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .data-table th {
+        color: var(--text-secondary);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        text-align: left;
+        padding: 10px 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .data-table td {
+        color: var(--text-primary);
+        font-size: 0.875rem;
+        padding: 12px 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .data-table tr:hover td {
+        background: rgba(255,255,255,0.02);
+    }
+    
+    .path-cell {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+    }
+    
+    .badge {
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+    
+    .badge-get { background: var(--accent-blue); color: white; }
+    .badge-post { background: var(--accent-green); color: white; }
+    .badge-put { background: var(--accent-yellow); color: black; }
+    .badge-delete { background: var(--accent-red); color: white; }
+    
+    .error-rate {
+        font-weight: 600;
+    }
+    .error-rate.low { color: var(--accent-green); }
+    .error-rate.medium { color: var(--accent-yellow); }
+    .error-rate.high { color: var(--accent-red); }
+    
+    /* Errors */
+    .error-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .error-item {
+        padding: 12px;
+        border-radius: 8px;
+        background: rgba(255,71,87,0.1);
+        border-left: 3px solid var(--accent-red);
+        margin-bottom: 8px;
+    }
+    
+    .error-item.warning {
+        background: rgba(255,184,0,0.1);
+        border-left-color: var(--accent-yellow);
+    }
+    
+    .error-message {
+        color: var(--text-primary);
+        font-size: 0.875rem;
+        margin-bottom: 4px;
+    }
+    
+    .error-meta {
+        color: var(--text-secondary);
+        font-size: 0.75rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 1200px) {
+        .charts-grid,
+        .tables-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="analytics-container">
+    <!-- Header -->
+    <div class="analytics-header">
+        <h1 class="analytics-title">📊 Log Analytics Dashboard</h1>
+        <div class="time-selector">
+            <button class="time-btn" data-days="1">24 Saat</button>
+            <button class="time-btn active" data-days="7">7 Gün</button>
+            <button class="time-btn" data-days="30">30 Gün</button>
+        </div>
+    </div>
+    
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">Toplam Request</div>
+            <div class="stat-value">{{ overview.total_requests|default:0 }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Başarılı</div>
+            <div class="stat-value success">{{ overview.successful_requests|default:0 }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Client Error (4xx)</div>
+            <div class="stat-value warning">{{ overview.client_errors|default:0 }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Server Error (5xx)</div>
+            <div class="stat-value error">{{ overview.server_errors|default:0 }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Hata Oranı</div>
+            <div class="stat-value {% if overview.error_rate > 5 %}error{% elif overview.error_rate > 1 %}warning{% else %}success{% endif %}">
+                {{ overview.error_rate|floatformat:1 }}%
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Ort. Response Time</div>
+            <div class="stat-value info">{{ overview.avg_response_time|floatformat:0 }}ms</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Unique Users</div>
+            <div class="stat-value">{{ overview.unique_users|default:0 }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Çözülmemiş Hata</div>
+            <div class="stat-value {% if overview.unresolved_errors > 0 %}error{% else %}success{% endif %}">
+                {{ overview.unresolved_errors|default:0 }}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Charts -->
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3 class="chart-title">📈 Request Trend (Son 30 Gün)</h3>
+            <div class="chart-container">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3 class="chart-title">🎯 Status Dağılımı</h3>
+            <div class="chart-container">
+                <canvas id="statusChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tables -->
+    <div class="tables-grid">
+        <!-- Top Endpoints -->
+        <div class="table-card">
+            <h3 class="table-title">🔝 En Çok Kullanılan Endpoint'ler</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Endpoint</th>
+                        <th>Method</th>
+                        <th>Requests</th>
+                        <th>Avg Time</th>
+                        <th>Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ep in top_endpoints %}
+                    <tr>
+                        <td class="path-cell" title="{{ ep.path }}">{{ ep.path }}</td>
+                        <td><span class="badge badge-{{ ep.method|lower }}">{{ ep.method }}</span></td>
+                        <td>{{ ep.request_count }}</td>
+                        <td>{{ ep.avg_response_time|floatformat:0 }}ms</td>
+                        <td>
+                            <span class="error-rate {% if ep.error_rate > 5 %}high{% elif ep.error_rate > 1 %}medium{% else %}low{% endif %}">
+                                {{ ep.error_rate|floatformat:1 }}%
+                            </span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: var(--text-secondary);">Veri yok</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Slowest Endpoints -->
+        <div class="table-card">
+            <h3 class="table-title">🐢 En Yavaş Endpoint'ler</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Endpoint</th>
+                        <th>Method</th>
+                        <th>Avg Time</th>
+                        <th>Max Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ep in slowest_endpoints %}
+                    <tr>
+                        <td class="path-cell" title="{{ ep.path }}">{{ ep.path }}</td>
+                        <td><span class="badge badge-{{ ep.method|lower }}">{{ ep.method }}</span></td>
+                        <td>{{ ep.avg_response_time|floatformat:0 }}ms</td>
+                        <td>{{ ep.max_response_time|floatformat:0 }}ms</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: var(--text-secondary);">Veri yok</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Recent Errors -->
+    <div class="table-card">
+        <h3 class="table-title">🚨 Son Hatalar</h3>
+        <ul class="error-list">
+            {% for error in recent_errors %}
+            <li class="error-item {% if error.level == 'WARNING' %}warning{% endif %}">
+                <div class="error-message">
+                    <strong>[{{ error.exception_type|default:'Error' }}]</strong> {{ error.message }}
+                </div>
+                <div class="error-meta">
+                    {{ error.path }} • {{ error.timestamp }} • {{ error.occurrence_count }}x
+                </div>
+            </li>
+            {% empty %}
+            <li style="color: var(--text-secondary); text-align: center; padding: 20px;">
+                Çözülmemiş hata yok 🎉
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script>
+(function() {
+    // Daily trend data
+    const dailyTrend = {{ daily_trend|safe }};
+    const statusDistribution = {{ status_distribution|safe }};
+    
+    // Trend Chart
+    const trendCtx = document.getElementById('trendChart').getContext('2d');
+    new Chart(trendCtx, {
+        type: 'line',
+        data: {
+            labels: dailyTrend.map(d => d.date),
+            datasets: [
+                {
+                    label: 'Requests',
+                    data: dailyTrend.map(d => d.total_requests),
+                    borderColor: '#4f8cff',
+                    backgroundColor: 'rgba(79, 140, 255, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                },
+                {
+                    label: 'Errors',
+                    data: dailyTrend.map(d => d.client_errors + d.server_errors),
+                    borderColor: '#ff4757',
+                    backgroundColor: 'rgba(255, 71, 87, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: { color: '#8b8ba7' }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: '#8b8ba7' },
+                    grid: { color: 'rgba(255,255,255,0.05)' }
+                },
+                y: {
+                    ticks: { color: '#8b8ba7' },
+                    grid: { color: 'rgba(255,255,255,0.05)' }
+                }
+            }
+        }
+    });
+    
+    // Status Chart
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    const statusColors = {
+        '200': '#00d26a',
+        '201': '#00d26a',
+        '204': '#00d26a',
+        '301': '#4f8cff',
+        '302': '#4f8cff',
+        '304': '#4f8cff',
+        '400': '#ffb800',
+        '401': '#ffb800',
+        '403': '#ffb800',
+        '404': '#ffb800',
+        '500': '#ff4757',
+        '502': '#ff4757',
+        '503': '#ff4757',
+    };
+    
+    new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(statusDistribution),
+            datasets: [{
+                data: Object.values(statusDistribution),
+                backgroundColor: Object.keys(statusDistribution).map(s => statusColors[s] || '#6c757d'),
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: { color: '#8b8ba7' }
+                }
+            }
+        }
+    });
+})();
+</script>
+{% endblock %}
+

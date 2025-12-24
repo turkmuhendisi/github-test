@@ -1,0 +1,16 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+  <!-- Merkezde stilize bir sütun → klasik medeniyet -->
+  <path d="M24 56h16M28 16h8M26 20h12M24 24h16M28 24v32M36 24v32"></path>
+
+  <!-- Altta devre yolları → teknoloji / inovasyon -->
+  <path d="M8 48h12m24 0h12"></path>
+  <circle cx="8" cy="48" r="2" fill="currentColor"></circle>
+  <circle cx="56" cy="48" r="2" fill="currentColor"></circle>
+
+  <!-- Üstte stilize kubbe → şehir & kültür -->
+  <path d="M16 16a16 16 0 0132 0"></path>
+  <path d="M12 16h40"></path>
+
+</svg>

@@ -1,0 +1,74 @@
+[
+  {
+    "id": 0,
+    "place": "Düzce, Türkiye",
+    "title": "PROJECT HUB",
+    "title2": "AI LAB",
+    "description": "Asrın Global’s Project Hub fuses agile delivery, AI-assisted PMO and model-based systems engineering to fast-track industrial decarbonisation projects from idea to bankable pilot.",
+    "details": "Core methods:\n• GPT-refined backlog grooming (SCRUM + SAFe hybrid) that cuts story refinement time by 46 %.\n• Predictive Kanban analytics: Bayesian cycle-time forecasts with ≤ 4 % MAPE.\n• RPA bots syncing Jira↔GitLab↔SAP for zero-touch status reporting.\n• Digital-twin sandboxes running real-time co-simulation (FMU 2.0) for energy-, traffic- and waste-flow models.\n• ISO 56002-aligned stage-gate PMO with auto-generated risk registers using LLM-extracted hazards.",
+    "image": "/media/home/index/img/img_circular.jpg"
+  },
+  {
+    "id": 1,
+    "place": "İstanbul, Türkiye",
+    "title": "COMMUNICATION",
+    "title2": "HUB",
+    "description": "Our Communication Hub blends AI narration, multilingual content engines and data-driven stakeholder analytics to deliver high-impact outreach across policy, industry and media.",
+    "details": "Signature techniques:\n• LLM copy-factory fine-tuned on 12 M technical press releases (BLEU = 0.81).\n• RAG pipeline that turns 200-page ESG reports into 90-s explainer videos with auto-edit HEVC rendering.\n• BERTopic clustering of 14 social-media streams for sentiment + emergent-theme heat-maps.\n• Whisper-Large-V3 servers providing live captioning & translation (28 lang, ≤ 250 ms latency).\n• GDPR-safe CRM enrichment via synthetic-data personas and k-anonymity scoring.",
+    "image": "/media/home/index/img/img_public_ai.gif"
+  },
+  {
+    "id": 2,
+    "place": "Düzce, Türkiye",
+    "title": "INNOVATION",
+    "title2": "HUB",
+    "description": "The Innovation Hub scouts, validates and scales frontier tech through AI-accelerated R&D orchestration and open-innovation programs.",
+    "details": "Tool-set:\n• GNN-powered TechRadar graph DB tracking 8 000 patents → novelty/risk score in < 120 s.\n• 3-day VR Design-Sprint kit with spatial whiteboards + motion-captured ideation analytics.\n• MLOps lab auto-trains baseline models on new sensor datasets in 45 min (Kubeflow + DVC).\n• ISO 16290 TRL + IRL scoring pipeline auto-populated from lab notebooks via NLP.\n• Crowdsourced challenge platform (600+ experts) with quadratic-voting reward pool.",
+    "image": "/media/home/index/img/img_green_tech.gif"
+  },
+  {
+    "id": 3,
+    "place": "Ankara, Türkiye",
+    "title": "GREEN",
+    "title2": "TECH",
+    "description": "The Green-Tech Lab accelerates carbon-negative materials and energy-positive micro-grids from TRL-4 proof-of-concept to bankable pilot scale.",
+    "details": "2025 headline projects & methods:\n• Bio-aerogel façade panel (λ = 0.018 W/mK) characterised via transient-plane-source calorimetry; stores 14 kg CO₂-e /m².\n• 50 kW perovskite PV roof feeding Li-S battery; digital twin built in COMSOL Multiphysics.\n• Hollow-fiber membrane capturing 92 % CO₂ (< €35/t) validated with in-situ FTIR.\nResearchers access pyro-GC-MS, −40 → +90 °C chambers and 30 m continuous pilot line.",
+    "image": "/media/home/index/video/clean_robots.mp4"
+  },
+  {
+    "id": 4,
+    "place": "Kocaeli, Türkiye",
+    "title": "PUBLIC",
+    "title2": "AI",
+    "description": "We build transparent, bias-audited AI tools that help cities optimise procurement, simulate urban systems and deliver citizen chat services in real time.",
+    "details": "Flagship modules & safeguards:\n• ProcureLens — NLP engine (RoBERTa-base + LoRA) detecting bid-rigging (F1 = 0.91) with SHAP-based explanation.\n• UrbanTwin — digital twin (2 M agents @1 s) using Mesa-RL + GPU particle traffic solver.\n• CivicChat — GPT-4-Turbo fine-tuned on 183 k FAQs; DP-SGD for privacy, WCAG 2.2 accessibility.\nQuarterly audits: ISO 42001 draft + EN 301 549.",
+    "image": "/media/home/index/video/doga.mp4"
+  },
+  {
+    "id": 5,
+    "place": "İzmir, Türkiye",
+    "title": "SMART",
+    "title2": "CITY",
+    "description": "Our IoT-powered urban platform merges mobility, energy and safety data to cut congestion, lower emissions and lift liveability scores.",
+    "details": "Platform stack:\n• Edge: LiDAR counters, OPC-UA energy meters, LTE-Mesh gateways.\n• DataOps: Kafka→Flink stream (4.3 M events/min) with Delta Lake time-travel.\n• Insight apps: dynamic curb-pricing, demand-response lighting (−47 % kWh) & heat-map routing shaving 19 % travel time.\nOpen GraphQL + WebSocket API with OAuth 2.1 & JSON-LD schemas.",
+    "image": "/media/home/index/video/bilisim_vadisi.mp4"
+  },
+  {
+    "id": 6,
+    "place": "İstanbul, Türkiye",
+    "title": "AG",
+    "title2": "VENTURE",
+    "description": "AG Ventures finances circular-economy, green-tech and AI founders, bundling capital with lab access and a global corporate network.",
+    "details": "Investment mechanics:\n• Ticket: €100 k – €3 M (pre-seed→Series A) via SAFE + revenue-share notes.\n• Due-diligence ML: XGBoost scoring on 47 KPIs (ROC-AUC 0.87).\n• Perks: 120-day lab sandbox, DFM mentoring, 40+ enterprise intro days.\n2024 funnel: 350 apps → 7 funded; rolling reviews quarterly.",
+    "image": "/media/home/index/video/venture.mp4"
+  },
+  {
+    "id": 7,
+    "place": "Düzce, Türkiye",
+    "title": "ASRIN",
+    "title2": "GLOBAL",
+    "description": "Watch our 60-second video to see how Asrın Global scales innovations from lab prototype to city-wide deployment.",
+    "details": "Fast facts:\n• Runtime 01:03, 1080p/60 fps, dual TR-EN VO & captions.\n• Scenes: in-house labs, pilot plants, smart-city roll-outs, venture highlights.\n• Shot on RED Komodo + DJI Inspire 3; delivered H-264 high-bit-rate.\nIdeal for investor decks, onboarding and press kits.",
+    "image": "/media/home/index/video/ag_video.mp4"
+  }
+]

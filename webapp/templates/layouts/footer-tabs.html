@@ -1,0 +1,28 @@
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="footer-tabs">
+  <!-- Ana Sayfa -->
+  <a href="/" class="footer-card home-icon" aria-label="Ana Sayfa">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path d="M12 3l10 9h-3v9h-5v-6h-4v6H5v-9H2z" />
+    </svg>
+  </a>
+
+  <!-- Hizmetler -->
+  <a href="/kripto/" class="footer-card">
+    <span>{% trans "Hizmetler" %}</span>
+  </a>
+
+  <!-- Mağaza -->
+  <a href="/store/" class="footer-card">
+    <span>{% trans "BelgeNET" %}</span>
+  </a>
+</div>
+

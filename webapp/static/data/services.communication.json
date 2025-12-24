@@ -1,0 +1,143 @@
+{
+  "hubId": "communication",
+  "hubAd": "Communication Hub",
+  "anaHizmetler": [
+    {
+      "id": "stratejik-iletisim",
+      "ad": "Stratejik İletişim & Marka",
+      "aciklama": "Kurum kimliği, konumlandırma ve mesaj mimarisi tasarımı",
+      "altHizmetler": [
+        {
+          "id": "marka-konum",
+          "ad": "Marka Konumlandırma",
+          "aciklama": "Değer önerisi, hedef kitle segmentasyonu"
+        },
+        {
+          "id": "mesaj-cerceve",
+          "ad": "Mesaj Çerçevesi",
+          "aciklama": "Ana mesaj, destekleyici anlatılar, ton & üslup"
+        },
+        {
+          "id": "kampanya",
+          "ad": "Kampanya Tasarımı",
+          "aciklama": "360° iletişim kampanyası, medya planı"
+        }
+      ]
+    },
+
+    {
+      "id": "medya-uretim",
+      "ad": "Medya Üretimi & Yayıncılık",
+      "aciklama": "Video, fotoğraf ve ses tabanlı içeriklerin uçtan uca prodüksiyonu",
+      "altHizmetler": [
+        {
+          "id": "video-prod",
+          "ad": "Video Prodüksiyon",
+          "aciklama": "Senaryo, çekim, kurgu, renk & ses masteringi"
+        },
+        {
+          "id": "podcast",
+          "ad": "Podcast Yayıncılığı",
+          "aciklama": "Stüdyo setup, kayıt & dağıtım, RSS yönetimi"
+        },
+        {
+          "id": "motion",
+          "ad": "Animasyon & Motion GFX",
+          "aciklama": "2D/3D animasyon, infografik videolar"
+        }
+      ]
+    },
+
+    {
+      "id": "dijital-pazarlama",
+      "ad": "Dijital Pazarlama & Sosyal Medya",
+      "aciklama": "Çevrim içi görünürlük ve etkileşim artırmaya dönük bütünleşik çözümler",
+      "altHizmetler": [
+        {
+          "id": "seo-sem",
+          "ad": "SEO / SEM",
+          "aciklama": "Anahtar kelime analizi, Google Ads optimizasyonu"
+        },
+        {
+          "id": "sosyal-yont",
+          "ad": "Sosyal Medya Yönetimi",
+          "aciklama": "Çok-kanallı içerik planı, topluluk etkileşimi"
+        },
+        {
+          "id": "icerik",
+          "ad": "İçerik Yazarlığı",
+          "aciklama": "Blog, newsletter, landing page kopyaları"
+        }
+      ]
+    },
+
+    {
+      "id": "etkinlik-yonetimi",
+      "ad": "Etkinlik & Organizasyon",
+      "aciklama": "Fiziksel ve dijital etkinliklerin planlama ve sahne yönetimi",
+      "altHizmetler": [
+        {
+          "id": "konferans",
+          "ad": "Konferans / Webinar",
+          "aciklama": "Program akışı, teknik yayın, canlı moderasyon"
+        },
+        {
+          "id": "fuar",
+          "ad": "Fuar & Stand Tasarımı",
+          "aciklama": "Stand konsepti, lojistik, ziyaretçi akışı"
+        },
+        {
+          "id": "basin-top",
+          "ad": "Basın Toplantısı",
+          "aciklama": "Medya daveti, basın kiti, konuşma metinleri"
+        }
+      ]
+    },
+
+    {
+      "id": "kurumsal-iletisim",
+      "ad": "Kurumsal & İç İletişim",
+      "aciklama": "Çalışan bağlılığı ve kurum kültürü odaklı iletişim programları",
+      "altHizmetler": [
+        {
+          "id": "ic-haber",
+          "ad": "İç Haberleşme Platformu",
+          "aciklama": "Intranet, bülten, mesaj panosu entegrasyonu"
+        },
+        {
+          "id": "liderlik",
+          "ad": "Liderlik İletişimi",
+          "aciklama": "Yönetici mesajları, townhall yönetimi"
+        },
+        {
+          "id": "kurumsal-dergi",
+          "ad": "Kurumsal Dergi",
+          "aciklama": "İçerik planı, tasarım, dağıtım optimizasyonu"
+        }
+      ]
+    },
+
+    {
+      "id": "kriz-itibar",
+      "ad": "Kriz İletişimi & İtibar",
+      "aciklama": "Öngörü, hazırlık, müdahale ve toparlama evrelerinde 7/24 destek",
+      "altHizmetler": [
+        {
+          "id": "risk-analiz",
+          "ad": "Risk Analizi",
+          "aciklama": "Olası kriz senaryoları, etki düzeyi matrisi"
+        },
+        {
+          "id": "acil-plan",
+          "ad": "Acil Durum Planı",
+          "aciklama": "Crisis manual, onay akışı, medya prosedürleri"
+        },
+        {
+          "id": "medya-brief",
+          "ad": "Medya Briefing",
+          "aciklama": "Sözcü eğitimi, Q&A dokümanı, canlı yayın hazırlığı"
+        }
+      ]
+    }
+  ]
+}

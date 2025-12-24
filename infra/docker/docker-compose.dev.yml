@@ -1,0 +1,275 @@
+# =============================================================================
+# DEVELOPMENT DOCKER COMPOSE - WEBAPP
+# =============================================================================
+# Kullanım: 
+#   make docker-dev                  (önerilen - runserver)
+#   make docker-dev-nginx            (nginx + gunicorn stack)
+#   
+# Veya manuel:
+#   docker-compose -f infra/docker/docker-compose.yml -f infra/docker/docker-compose.dev.yml up -d
+#
+# Hot Reload:
+#   Kod değişiklikleri otomatik olarak algılanır ve Django yeniden başlar.
+#   Watchdog ile gelişmiş dosya izleme aktif.
+#
+# Development Modları:
+#   1. runserver (default): Django dev server, port 8000
+#   2. nginx profile: Nginx + Gunicorn stack, port 80/8000
+# =============================================================================
+
+services:
+  # ===========================================================================
+  # WEBAPP - Django Web Application (Development)
+  # ===========================================================================
+  web:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.dev
+    container_name: globalmain_webapp_dev
+    restart: unless-stopped
+    environment:
+      # Django Settings - WEBAPP projesini kullan
+      - DJANGO_SETTINGS_MODULE=webapp.home.settings
+      - DJANGO_ENV=development
+      - DJANGO_DEBUG=True
+      - DJANGO_LOG_LEVEL=INFO
+      - DOCKER_MODE=True
+      # Hot Reload - Watchdog kullan (daha güvenilir)
+      - PYTHONUNBUFFERED=1
+      - WATCHFILES_FORCE_POLLING=true
+      # Database
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=globalmain
+      - DB_USER=${DB_USER:-mayscon}
+      - DB_PASSWORD=${DB_PASSWORD:-Ubit_081}
+      - DB_HOST=db
+      - DB_PORT=5432
+      # Analytics DB (ayrı container kullanılacaksa db-analytics olmalı)
+      - DB_ANALYTICS_ENABLED=False
+      # Logs DB (ayrı container kullanılacaksa db-logs olmalı)
+      - DB_LOGS_ENABLED=False
+      # Redis
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    ports:
+      - "8000:8000"
+    volumes:
+      # =========================================================================
+      # SOURCE CODE MOUNT - Yerel değişiklikler anında yansır
+      # =========================================================================
+      - ../..:/app:cached
+      # Exclude - Bu klasörler container içinde kalır (performans)
+      - /app/.venv
+      - /app/__pycache__
+      - /app/.git
+      # =========================================================================
+      # BACKUP VOLUME - PostgreSQL yedekleri
+      # =========================================================================
+      - ../data/backups:/app/infra/data/backups
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - globalmain_network
+    # Hot reload ile runserver - dosya değişikliklerini izler
+    command: >
+      sh -c "
+        echo '🔄 Hot Reload aktif - Kod değişiklikleri otomatik algılanacak'
+        python webapp/manage.py runserver 0.0.0.0:8000
+      "
+    # Stdin açık tut (debugging için)
+    stdin_open: true
+    tty: true
+
+  # ===========================================================================
+  # WEBAPP + GUNICORN (Development - Nginx stack için)
+  # ===========================================================================
+  # Profile: nginx
+  # Kullanım: make docker-dev-nginx
+  # ===========================================================================
+  web-gunicorn:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.dev
+    container_name: globalmain_gunicorn_dev
+    restart: unless-stopped
+    profiles:
+      - nginx
+    environment:
+      - DJANGO_SETTINGS_MODULE=webapp.home.settings
+      - DJANGO_ENV=development
+      - DJANGO_DEBUG=True
+      - DJANGO_LOG_LEVEL=DEBUG
+      - DOCKER_MODE=True
+      - PYTHONUNBUFFERED=1
+      # Database
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=globalmain
+      - DB_USER=${DB_USER:-mayscon}
+      - DB_PASSWORD=${DB_PASSWORD:-Ubit_081}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_ANALYTICS_ENABLED=False
+      - DB_LOGS_ENABLED=False
+      # Redis
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    expose:
+      - "8000"
+    volumes:
+      - ../..:/app:cached
+      - /app/.venv
+      - /app/__pycache__
+      - /app/.git
+      - ../data/backups:/app/infra/data/backups
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - globalmain_network
+    # Gunicorn + Uvicorn worker (ASGI, WebSocket desteği)
+    command: >
+      sh -c "
+        echo '🚀 Gunicorn + Uvicorn Worker başlatılıyor...'
+        gunicorn --config infra/gunicorn/gunicorn.dev.conf.py config.hub.asgi:application
+      "
+    stdin_open: true
+    tty: true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # ===========================================================================
+  # NGINX (Development - Reverse Proxy)
+  # ===========================================================================
+  # Profile: nginx
+  # Kullanım: make docker-dev-nginx
+  # ===========================================================================
+  nginx:
+    image: nginx:alpine
+    container_name: globalmain_nginx_dev
+    restart: unless-stopped
+    profiles:
+      - nginx
+    ports:
+      - "80:80"
+      - "8080:8080"  # Nginx status
+    volumes:
+      - ../nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - ../..:/app:ro  # Static files için (read-only)
+    depends_on:
+      - web-gunicorn
+    networks:
+      - globalmain_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+  # ===========================================================================
+  # CELERY WORKER (Development) - Optional
+  # ===========================================================================
+  celery:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.dev
+    container_name: globalmain_celery_dev
+    restart: unless-stopped
+    profiles:
+      - celery
+    environment:
+      - DJANGO_SETTINGS_MODULE=webapp.home.settings
+      - DJANGO_ENV=development
+      - DOCKER_MODE=True
+      - PYTHONUNBUFFERED=1
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=globalmain
+      - DB_USER=${DB_USER:-mayscon}
+      - DB_PASSWORD=${DB_PASSWORD:-Ubit_081}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    volumes:
+      - ../..:/app:cached
+      - /app/.venv
+      - /app/__pycache__
+    depends_on:
+      - redis
+      - db
+    networks:
+      - globalmain_network
+    # Watchgod ile auto-reload
+    command: watchfiles --filter python 'celery -A config.hub.celery worker --loglevel=INFO' .
+
+  # ===========================================================================
+  # MAILHOG (Email Testing) - Optional
+  # ===========================================================================
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: globalmain_mailhog
+    restart: unless-stopped
+    profiles:
+      - mail
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    networks:
+      - globalmain_network
+
+  # ===========================================================================
+  # DB BACKUP SERVICE - Günlük Otomatik Yedekleme
+  # ===========================================================================
+  # Profile: backup
+  # Her gün 02:00'de (Türkiye saati) otomatik backup alır
+  # 30 günden eski backup'ları otomatik siler
+  #
+  # Kullanım:
+  #   make docker-backup        - Backup servisini başlat
+  #   make docker-backup-now    - Şimdi backup al
+  #   make docker-backup-list   - Backup'ları listele
+  # ===========================================================================
+  db-backup:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.backup
+    container_name: globalmain_db_backup
+    restart: unless-stopped
+    profiles:
+      - backup
+    environment:
+      - TZ=Europe/Istanbul
+      - DB_USER=${DB_USER:-mayscon}
+      - DB_PASSWORD=${DB_PASSWORD:-Ubit_081}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - BACKUP_ON_START=${BACKUP_ON_START:-false}
+    volumes:
+      - ../data/backups:/app/infra/data/backups
+      - ../data/scripts:/app/infra/data/scripts:ro
+      - backup_logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - globalmain_network
+
+# =============================================================================
+# VOLUMES (dev için ek)
+# =============================================================================
+volumes:
+  postgres_data:
+  redis_data:
+  backup_data:
+  backup_logs:

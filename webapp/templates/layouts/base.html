@@ -1,0 +1,17 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Asrın Global{% endblock %}</title>
+    <style>
+    :root{ --ag-yellow:#ECAD29; }
+  </style>
+    {% block page_css %}{% endblock %}
+  </head>
+  <body>
+    {% block content %}{% endblock %} {% include "layouts/footer-tabs.html" %}
+    {% block page_js %}{% endblock %}
+  </body>
+</html>

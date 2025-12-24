@@ -1,0 +1,71 @@
+# =============================================================================
+# DEVELOPMENT DOCKERFILE - GlobalMain Webapp
+# =============================================================================
+# Hot reload, debug araçları ve geliştirme bağımlılıkları
+#
+# Build: docker build -f infra/docker/Dockerfile.dev -t globalmain:dev .
+#
+# HOT RELOAD:
+#   - Django runserver otomatik dosya izleme yapar
+#   - Volume mount ile yerel değişiklikler anında yansır
+#   - Watchdog/Watchfiles WSL2 uyumluluğu için polling kullanır
+# =============================================================================
+
+FROM python:3.12-slim
+
+# Environment
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV DJANGO_ENV=development
+ENV DJANGO_DEBUG=True
+ENV DJANGO_SETTINGS_MODULE=webapp.home.settings
+ENV PIP_NO_CACHE_DIR=1
+
+# Hot reload için polling (WSL2 / Docker uyumluluğu)
+ENV WATCHFILES_FORCE_POLLING=true
+
+# Working directory
+WORKDIR /app
+
+# System dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # PostgreSQL client (backup/restore için)
+    libpq-dev \
+    postgresql-client \
+    # Build tools
+    gcc \
+    # Utils
+    curl \
+    git \
+    # Cleanup
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Requirements dosyalarını kopyala
+COPY tools/requirements/ ./tools/requirements/
+
+# Python dependencies
+RUN pip install --upgrade pip \
+    && pip install -r tools/requirements/dev.txt \
+    # Hot reload için ek paketler (WSL2 uyumlu)
+    && pip install watchfiles
+
+# Application code (volume mount ile override edilecek)
+COPY . .
+
+# Logs, media ve backup dizinlerini oluştur
+RUN mkdir -p /app/logs /app/webapp/media /app/webapp/static /app/infra/data/backups
+
+# Script'leri çalıştırılabilir yap
+RUN chmod +x /app/infra/data/scripts/*.sh 2>/dev/null || true
+
+# Port
+EXPOSE 8000
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:8000/health/ || exit 1
+
+# Development server - Webapp (hot reload aktif)
+# Django'nun dahili autoreload'ı dosya değişikliklerini izler
+CMD ["python", "webapp/manage.py", "runserver", "0.0.0.0:8000"]

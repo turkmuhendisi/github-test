@@ -1,0 +1,73 @@
+# =============================================================================
+# GLOBALMAIN - DEVELOPMENT REQUIREMENTS
+# =============================================================================
+# Geliştirme ortamı bağımlılıkları
+# Debug araçları, test frameworkleri, code quality
+# =============================================================================
+
+# Base ve Data requirements dahil
+-r base.txt
+-r data.txt
+
+# -----------------------------------------------------------------------------
+# DEBUG TOOLS
+# -----------------------------------------------------------------------------
+django-debug-toolbar>=4.3.0   # SQL queries, templates, cache analizi
+rich>=13.7.0                  # Terminal UI, canlı izleme, tablolar
+django-extensions>=3.2.3      # shell_plus, show_urls, graph_models
+ipython>=8.22.0               # Gelişmiş Python shell
+ipdb>=0.13.13                 # IPython debugger
+Werkzeug>=3.0.0               # Runserver plus için
+
+# -----------------------------------------------------------------------------
+# CODE QUALITY
+# -----------------------------------------------------------------------------
+flake8>=7.0.0                 # Linting
+black>=24.3.0                 # Code formatter
+isort>=5.13.0                 # Import sıralama
+pylint>=3.1.0                 # Static analysis
+pylint-django>=2.5.5          # Django için pylint
+
+# -----------------------------------------------------------------------------
+# TESTING
+# -----------------------------------------------------------------------------
+pytest>=8.1.0                 # Test framework
+pytest-django>=4.8.0          # Django integration
+pytest-cov>=5.0.0             # Coverage reporting
+pytest-xdist>=3.5.0           # Parallel test execution
+factory-boy>=3.3.0            # Test fixtures
+faker>=24.3.0                 # Fake data generation
+coverage>=7.4.0               # Code coverage
+
+# -----------------------------------------------------------------------------
+# TYPE CHECKING
+# -----------------------------------------------------------------------------
+mypy>=1.9.0                   # Static type checker
+django-stubs>=4.2.7           # Django type stubs
+types-redis>=4.6.0            # Redis type stubs
+types-python-dateutil>=2.9.0  # Dateutil type stubs
+
+# -----------------------------------------------------------------------------
+# HOT RELOAD
+# -----------------------------------------------------------------------------
+watchdog>=4.0.0               # File system events
+django-browser-reload>=1.12.1 # Auto browser reload
+
+# -----------------------------------------------------------------------------
+# WSGI / ASGI SERVER (Development - Production-like test)
+# -----------------------------------------------------------------------------
+gunicorn>=21.2.0              # Production WSGI server
+uvicorn[standard]>=0.29.0     # ASGI server (WebSocket + async)
+
+# -----------------------------------------------------------------------------
+# WEB MONITOR
+# -----------------------------------------------------------------------------
+fastapi>=0.110.0              # Web monitor dashboard
+websockets>=12.0              # WebSocket support
+
+# -----------------------------------------------------------------------------
+# DOCUMENTATION
+# -----------------------------------------------------------------------------
+# mkdocs>=1.5.3               # Documentation generator
+# mkdocs-material>=9.5.0      # Material theme
+

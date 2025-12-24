@@ -1,0 +1,149 @@
+{# =============================================================================
+   ASRIN CORE - Messages Component
+   ================================
+   
+   Django messages framework için merkezi bileşen.
+   
+   Kullanım:
+   --------
+   {% include "core/components/messages.html" %}
+============================================================================= #}
+
+{% if messages %}
+<div class="ag-messages-container" role="alert" aria-live="polite">
+    {% for message in messages %}
+    <div class="ag-alert ag-alert-{{ message.tags|default:'info' }}" data-dismiss="true">
+        <div class="ag-alert-icon">
+            {% if message.tags == 'success' %}
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+            {% elif message.tags == 'error' or message.tags == 'danger' %}
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+            {% elif message.tags == 'warning' %}
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+            </svg>
+            {% else %}
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+            </svg>
+            {% endif %}
+        </div>
+        <div class="ag-alert-content">
+            {{ message }}
+        </div>
+        <button type="button" class="ag-alert-close" aria-label="Kapat">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+        </button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<style>
+.ag-messages-container {
+    position: fixed;
+    top: var(--ag-spacing-lg);
+    right: var(--ag-spacing-lg);
+    z-index: 9999;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--ag-spacing-sm);
+}
+
+.ag-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--ag-spacing-sm);
+    padding: var(--ag-spacing-md);
+    border-radius: var(--ag-radius-md);
+    background: var(--ag-white);
+    box-shadow: var(--ag-shadow-lg);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.ag-alert-success {
+    border-left: 4px solid var(--ag-success);
+}
+
+.ag-alert-success .ag-alert-icon {
+    color: var(--ag-success);
+}
+
+.ag-alert-error,
+.ag-alert-danger {
+    border-left: 4px solid var(--ag-danger);
+}
+
+.ag-alert-error .ag-alert-icon,
+.ag-alert-danger .ag-alert-icon {
+    color: var(--ag-danger);
+}
+
+.ag-alert-warning {
+    border-left: 4px solid var(--ag-warning);
+}
+
+.ag-alert-warning .ag-alert-icon {
+    color: var(--ag-warning);
+}
+
+.ag-alert-info {
+    border-left: 4px solid var(--ag-info);
+}
+
+.ag-alert-info .ag-alert-icon {
+    color: var(--ag-info);
+}
+
+.ag-alert-content {
+    flex: 1;
+    color: var(--ag-dark);
+}
+
+.ag-alert-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ag-gray);
+    padding: 0;
+    opacity: 0.6;
+    transition: opacity var(--ag-transition-fast);
+}
+
+.ag-alert-close:hover {
+    opacity: 1;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto dismiss after 5 seconds
+    document.querySelectorAll('.ag-alert[data-dismiss="true"]').forEach(function(alert) {
+        setTimeout(function() {
+            alert.style.animation = 'slideOut 0.3s ease forwards';
+            setTimeout(function() {
+                alert.remove();
+            }, 300);
+        }, 5000);
+    });
+});
+</script>
+

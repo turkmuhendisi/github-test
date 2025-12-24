@@ -1,0 +1,241 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-19 02:25+0300\n"
+"PO-Revision-Date: 2025-06-19 23:45+0300\n"
+"Last-Translator: Asrın Global\n"
+"Language-Team: English <en@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid ""
+"UKAB Innovation & Technology Foundation | ASRIN GLOBAL [HUB], which brings "
+"together our design, research and entrepreneurship know-how under one roof, "
+"functions as a “Center of Excellence” for projects focused on circular "
+"economy and artificial intelligence. The HUB ecosystem rapidly transforms "
+"prototypes into products through academia-industry collaborations, while "
+"developing sustainable and highly livable city models with the vision of "
+"Civilization v1.0.0."
+msgstr ""
+"UKAB Innovation & Technology Foundation | ASRIN GLOBAL [HUB], which brings "
+"together our design, research and entrepreneurship know-how under one roof, "
+"functions as a “Center of Excellence” for projects focused on circular "
+"economy and artificial intelligence. The HUB ecosystem rapidly transforms "
+"prototypes into products through academia-industry collaborations, while "
+"developing sustainable and highly livable city models with the vision of "
+"Civilization v1.0.0."
+
+#: templates/home/index/index.html:144 templates/home/index/index.html:171
+msgid "Discover Civilization"
+msgstr ""
+
+#: templates/home/index/index.html:157
+msgid ""
+"Our IoT-powered urban platform weaves mobility, energy and public-safety "
+"data into one intelligent fabric. By fusing real-time analytics with edge-AI "
+"devices, municipalities can reduce congestion, cut emissions and raise "
+"liveability scores—delivering on the Civilization v1.0.0 vision of "
+"resilient, human-centric cities."
+msgstr ""
+"Our IoT-powered urban platform weaves mobility, energy and public-safety "
+"data into one intelligent fabric. By fusing real-time analytics with edge-AI "
+"devices, municipalities can reduce congestion, cut emissions and raise "
+"liveability scores—delivering on the Civilization v1.0.0 vision of "
+"resilient, human-centric cities."
+
+
+msgid "Düzce, Türkiye"
+msgstr ""
+
+
+msgid "PROJECT HUB"
+msgstr ""
+
+
+msgid "AI LAB"
+msgstr ""
+
+
+msgid "Asrın Global’s Project Hub fuses agile delivery, AI-assisted PMO and model-based systems engineering to fast-track industrial decarbonisation projects from idea to bankable pilot."
+msgstr ""
+
+
+msgid "Core methods:"
+"• GPT-refined backlog grooming (SCRUM + SAFe hybrid) that cuts story refinement time by 46 %."
+"• Predictive Kanban analytics: Bayesian cycle-time forecasts with ≤ 4 % MAPE."
+"• RPA bots syncing Jira↔GitLab↔SAP for zero-touch status reporting."
+"• Digital-twin sandboxes running real-time co-simulation (FMU 2.0) for energy-, traffic- and waste-flow models."
+"• ISO 56002-aligned stage-gate PMO with auto-generated risk registers using LLM-extracted hazards."
+msgstr ""
+
+
+msgid "İstanbul, Türkiye"
+msgstr ""
+
+
+msgid "COMMUNICATION"
+msgstr ""
+
+
+msgid "HUB"
+msgstr ""
+
+
+msgid "Our Communication Hub blends AI narration, multilingual content engines and data-driven stakeholder analytics to deliver high-impact outreach across policy, industry and media."
+msgstr ""
+
+
+msgid "Signature techniques:"
+"• LLM copy-factory fine-tuned on 12 M technical press releases (BLEU = 0.81)."
+"• RAG pipeline that turns 200-page ESG reports into 90-s explainer videos with auto-edit HEVC rendering."
+"• BERTopic clustering of 14 social-media streams for sentiment + emergent-theme heat-maps."
+"• Whisper-Large-V3 servers providing live captioning & translation (28 lang, ≤ 250 ms latency)."
+"• GDPR-safe CRM enrichment via synthetic-data personas and k-anonymity scoring."
+msgstr ""
+
+
+msgid "INNOVATION"
+msgstr ""
+
+
+msgid "The Innovation Hub scouts, validates and scales frontier tech through AI-accelerated R&D orchestration and open-innovation programs."
+msgstr ""
+
+
+msgid "Tool-set:"
+"• GNN-powered TechRadar graph DB tracking 8 000 patents → novelty/risk score in < 120 s."
+"• 3-day VR Design-Sprint kit with spatial whiteboards + motion-captured ideation analytics."
+"• MLOps lab auto-trains baseline models on new sensor datasets in 45 min (Kubeflow + DVC)."
+"• ISO 16290 TRL + IRL scoring pipeline auto-populated from lab notebooks via NLP."
+"• Crowdsourced challenge platform (600+ experts) with quadratic-voting reward pool."
+msgstr ""
+
+
+msgid "Ankara, Türkiye"
+msgstr ""
+
+
+msgid "GREEN"
+msgstr ""
+
+
+msgid "TECH"
+msgstr ""
+
+
+msgid "The Green-Tech Lab accelerates carbon-negative materials and energy-positive micro-grids from TRL-4 proof-of-concept to bankable pilot scale."
+msgstr ""
+
+
+msgid "2025 headline projects & methods:"
+"• Bio-aerogel façade panel (λ = 0.018 W/mK) characterised via transient-plane-source calorimetry; stores 14 kg CO₂-e /m²."
+"• 50 kW perovskite PV roof feeding Li-S battery; digital twin built in COMSOL Multiphysics."
+"• Hollow-fiber membrane capturing 92 % CO₂ (< €35/t) validated with in-situ FTIR."
+"Researchers access pyro-GC-MS, −40 → +90 °C chambers and 30 m continuous pilot line."
+msgstr ""
+
+
+msgid "Kocaeli, Türkiye"
+msgstr ""
+
+
+msgid "PUBLIC"
+msgstr ""
+
+
+msgid "AI"
+msgstr ""
+
+
+msgid "We build transparent, bias-audited AI tools that help cities optimise procurement, simulate urban systems and deliver citizen chat services in real time."
+msgstr ""
+
+
+msgid "Flagship modules & safeguards:"
+"• ProcureLens — NLP engine (RoBERTa-base + LoRA) detecting bid-rigging (F1 = 0.91) with SHAP-based explanation."
+"• UrbanTwin — digital twin (2 M agents @1 s) using Mesa-RL + GPU particle traffic solver."
+"• CivicChat — GPT-4-Turbo fine-tuned on 183 k FAQs; DP-SGD for privacy, WCAG 2.2 accessibility."
+"Quarterly audits: ISO 42001 draft + EN 301 549."
+msgstr ""
+
+
+msgid "İzmir, Türkiye"
+msgstr ""
+
+
+msgid "SMART"
+msgstr ""
+
+
+msgid "CITY"
+msgstr ""
+
+
+msgid "Our IoT-powered urban platform merges mobility, energy and safety data to cut congestion, lower emissions and lift liveability scores."
+msgstr ""
+
+
+msgid "Platform stack:"
+"• Edge: LiDAR counters, OPC-UA energy meters, LTE-Mesh gateways."
+"• DataOps: Kafka→Flink stream (4.3 M events/min) with Delta Lake time-travel."
+"• Insight apps: dynamic curb-pricing, demand-response lighting (−47 % kWh) & heat-map routing shaving 19 % travel time."
+"Open GraphQL + WebSocket API with OAuth 2.1 & JSON-LD schemas."
+msgstr ""
+
+
+msgid "AG"
+msgstr ""
+
+
+msgid "VENTURE"
+msgstr ""
+
+
+msgid "AG Ventures finances circular-economy, green-tech and AI founders, bundling capital with lab access and a global corporate network."
+msgstr ""
+
+
+msgid "Investment mechanics:"
+"• Ticket: €100 k – €3 M (pre-seed→Series A) via SAFE + revenue-share notes."
+"• Due-diligence ML: XGBoost scoring on 47 KPIs (ROC-AUC 0.87)."
+"• Perks: 120-day lab sandbox, DFM mentoring, 40+ enterprise intro days."
+"2024 funnel: 350 apps → 7 funded; rolling reviews quarterly."
+msgstr ""
+
+
+msgid "ASRIN"
+msgstr ""
+
+
+msgid "GLOBAL"
+msgstr ""
+
+
+msgid "Watch our 60-second video to see how Asrın Global scales innovations from lab prototype to city-wide deployment."
+msgstr ""
+
+
+msgid "Fast facts:"
+"• Runtime 01:03, 1080p/60 fps, dual TR-EN VO & captions."
+"• Scenes: in-house labs, pilot plants, smart-city roll-outs, venture highlights."
+"• Shot on RED Komodo + DJI Inspire 3; delivered H-264 high-bit-rate."
+"Ideal for investor decks, onboarding and press kits."
+msgstr ""
+
+msgid "Services"
+msgstr ""
+
+msgid "Store"
+msgstr ""
+
+msgid "Home"
+msgstr ""

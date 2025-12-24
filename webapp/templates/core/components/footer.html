@@ -1,0 +1,114 @@
+{# =============================================================================
+   ASRIN CORE - Footer Component
+   =============================
+   
+   Merkezi footer bileşeni.
+   
+   Kullanım:
+   --------
+   {% include "core/components/footer.html" %}
+============================================================================= #}
+
+<footer class="ag-footer">
+    <div class="ag-container">
+        <div class="ag-footer-grid">
+            {# Company Info #}
+            <div class="ag-footer-section">
+                {% block footer_brand %}
+                <h3 class="ag-footer-brand">{{ brand_name|default:"Asrın Global" }}</h3>
+                <p class="ag-footer-tagline">Enterprise Django Framework</p>
+                {% endblock %}
+            </div>
+            
+            {# Quick Links #}
+            <div class="ag-footer-section">
+                {% block footer_links %}
+                <h4>Hızlı Bağlantılar</h4>
+                <ul class="ag-footer-links">
+                    <li><a href="{% url 'home' %}">Ana Sayfa</a></li>
+                    <li><a href="{% url 'admin:index' %}">Admin Panel</a></li>
+                </ul>
+                {% endblock %}
+            </div>
+            
+            {# Contact #}
+            <div class="ag-footer-section">
+                {% block footer_contact %}
+                <h4>İletişim</h4>
+                <ul class="ag-footer-links">
+                    <li>Email: info@asringlobal.com</li>
+                </ul>
+                {% endblock %}
+            </div>
+        </div>
+        
+        {# Copyright #}
+        <div class="ag-footer-bottom">
+            {% block footer_copyright %}
+            <p>&copy; {% now "Y" %} {{ brand_name|default:"Asrın Global" }}. Tüm hakları saklıdır.</p>
+            {% endblock %}
+        </div>
+    </div>
+</footer>
+
+<style>
+.ag-footer {
+    background: var(--ag-secondary);
+    color: var(--ag-white);
+    padding: var(--ag-spacing-xl) 0 var(--ag-spacing-lg);
+    margin-top: auto;
+}
+
+.ag-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--ag-spacing-xl);
+    margin-bottom: var(--ag-spacing-lg);
+}
+
+.ag-footer-brand {
+    color: var(--ag-primary);
+    font-size: 1.5rem;
+    margin-bottom: var(--ag-spacing-sm);
+}
+
+.ag-footer-tagline {
+    color: var(--ag-gray);
+    font-size: 0.9rem;
+}
+
+.ag-footer-section h4 {
+    color: var(--ag-primary);
+    margin-bottom: var(--ag-spacing-md);
+}
+
+.ag-footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ag-footer-links li {
+    margin-bottom: var(--ag-spacing-sm);
+}
+
+.ag-footer-links a {
+    color: var(--ag-white);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity var(--ag-transition-fast);
+}
+
+.ag-footer-links a:hover {
+    opacity: 1;
+    color: var(--ag-primary);
+}
+
+.ag-footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: var(--ag-spacing-lg);
+    text-align: center;
+    color: var(--ag-gray);
+}
+</style>
+

@@ -1,0 +1,237 @@
+# =============================================================================
+# ASRIN CORE - Merkezi Docker Compose
+# =============================================================================
+# 
+# Bu dosya merkezi servisleri tanımlar.
+# Yeni projeler bu dosyayı extend ederek kendi servislerini ekler.
+#
+# Kullanım (Yeni Projede):
+#   docker-compose -f core/infra/docker/docker-compose.core.yml \
+#                  -f docker-compose.yml up -d
+#
+# Veya docker-compose.yml içinde:
+#   services:
+#     web:
+#       extends:
+#         file: core/infra/docker/docker-compose.core.yml
+#         service: web-base
+#
+# =============================================================================
+
+version: '3.8'
+
+# =============================================================================
+# CORE SERVICE TEMPLATES (x- prefix = extension field, deploy edilmez)
+# =============================================================================
+
+x-django-base: &django-base
+  # Django servisi için temel yapılandırma
+  environment: &django-env
+    - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-config.hub.settings}
+    - DJANGO_ENV=${DJANGO_ENV:-development}
+    - DJANGO_DEBUG=${DJANGO_DEBUG:-True}
+    - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-change-me-in-production}
+    - DB_HOST=${DB_HOST:-db}
+    - DB_PORT=${DB_PORT:-5432}
+    - DB_NAME=${DB_NAME:-globalmain}
+    - DB_USER=${DB_USER:-mayscon}
+    - DB_PASSWORD=${DB_PASSWORD:-}
+    - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+    - DOCKER_MODE=True
+  volumes:
+    - static_volume:/app/staticfiles
+    - media_volume:/app/media
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+    interval: 30s
+    timeout: 10s
+    retries: 3
+    start_period: 40s
+
+x-postgres-base: &postgres-base
+  image: postgres:16-alpine
+  restart: unless-stopped
+  environment:
+    POSTGRES_USER: ${DB_USER:-mayscon}
+    POSTGRES_PASSWORD: ${DB_PASSWORD:-}
+    PGDATA: /var/lib/postgresql/data/pgdata
+  healthcheck:
+    test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-mayscon}"]
+    interval: 10s
+    timeout: 5s
+    retries: 5
+
+x-redis-base: &redis-base
+  image: redis:7-alpine
+  restart: unless-stopped
+  command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+  healthcheck:
+    test: ["CMD", "redis-cli", "ping"]
+    interval: 10s
+    timeout: 5s
+    retries: 5
+
+# =============================================================================
+# CORE SERVICES
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # WEB BASE (extend edilecek)
+  # ---------------------------------------------------------------------------
+  web-base:
+    <<: *django-base
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.dev
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "${WEB_PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - core_network
+
+  # ---------------------------------------------------------------------------
+  # PRIMARY DATABASE
+  # ---------------------------------------------------------------------------
+  db:
+    <<: *postgres-base
+    container_name: asrin_core_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-mayscon}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-}
+      POSTGRES_DB: ${DB_NAME:-globalmain}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - core_postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - core_network
+
+  # ---------------------------------------------------------------------------
+  # REDIS (Cache & Celery Broker)
+  # ---------------------------------------------------------------------------
+  redis:
+    <<: *redis-base
+    container_name: asrin_core_redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - core_redis_data:/data
+    networks:
+      - core_network
+
+  # ---------------------------------------------------------------------------
+  # ANALYTICS DATABASE (Optional)
+  # ---------------------------------------------------------------------------
+  db-analytics:
+    <<: *postgres-base
+    container_name: asrin_core_db_analytics
+    profiles:
+      - analytics
+      - full
+    environment:
+      POSTGRES_USER: ${DB_USER:-mayscon}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-}
+      POSTGRES_DB: ${DB_ANALYTICS_NAME:-globalmain_analytics}
+    ports:
+      - "${DB_ANALYTICS_PORT:-5434}:5432"
+    volumes:
+      - core_postgres_analytics_data:/var/lib/postgresql/data
+    networks:
+      - core_network
+
+  # ---------------------------------------------------------------------------
+  # LOGS DATABASE (Optional)
+  # ---------------------------------------------------------------------------
+  db-logs:
+    <<: *postgres-base
+    container_name: asrin_core_db_logs
+    profiles:
+      - logs
+      - full
+    environment:
+      POSTGRES_USER: ${DB_USER:-mayscon}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-}
+      POSTGRES_DB: ${DB_LOGS_NAME:-globalmain_logs}
+    ports:
+      - "${DB_LOGS_PORT:-5435}:5432"
+    volumes:
+      - core_postgres_logs_data:/var/lib/postgresql/data
+    networks:
+      - core_network
+
+  # ---------------------------------------------------------------------------
+  # CELERY WORKER (Optional)
+  # ---------------------------------------------------------------------------
+  celery-worker:
+    <<: *django-base
+    container_name: asrin_core_celery_worker
+    profiles:
+      - celery
+      - full
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.dev
+    command: celery -A config worker -l INFO
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - core_network
+
+  # ---------------------------------------------------------------------------
+  # CELERY BEAT (Optional)
+  # ---------------------------------------------------------------------------
+  celery-beat:
+    <<: *django-base
+    container_name: asrin_core_celery_beat
+    profiles:
+      - celery
+      - full
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.dev
+    command: celery -A config beat -l INFO
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - core_network
+
+# =============================================================================
+# VOLUMES
+# =============================================================================
+
+volumes:
+  core_postgres_data:
+    driver: local
+  core_postgres_analytics_data:
+    driver: local
+  core_postgres_logs_data:
+    driver: local
+  core_redis_data:
+    driver: local
+  static_volume:
+    driver: local
+  media_volume:
+    driver: local
+
+# =============================================================================
+# NETWORKS
+# =============================================================================
+
+networks:
+  core_network:
+    driver: bridge
+    name: asrin_core_network
+

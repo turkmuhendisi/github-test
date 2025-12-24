@@ -1,0 +1,150 @@
+{
+  "hubId": "project",
+  "hubAd": "Project Hub",
+  "anaHizmetler": [
+    {
+      "id": "proje-yonetimi",
+      "ad": "Entegre Proje Yönetimi",
+      "aciklama": "PMBOK, PRINCE2 ve Agile yaklaşımlarını harmanlayarak uçtan uca proje yönetimi",
+      "altHizmetler": [
+        {
+          "id": "planlama",
+          "ad": "Planlama & Zamanlama",
+          "aciklama": "WBS, Gantt, MS-Project / Jira sprint planları"
+        },
+        {
+          "id": "risk",
+          "ad": "Risk & Paydaş Yönetimi",
+          "aciklama": "Niteliksel-niceliksel risk analizi, paydaş matrisi"
+        },
+        {
+          "id": "butce",
+          "ad": "Bütçe & Finans Takibi",
+          "aciklama": "CapEx / OpEx ayrımı, nakit akışı, SAP-ERP entegrasyonu"
+        },
+        {
+          "id": "tedarik",
+          "ad": "Satın Alma / İhale",
+          "aciklama": "4734 KİK süreçleri, teklif değerlendirme, sözleşme"
+        },
+        {
+          "id": "raporlama",
+          "ad": "Raporlama & KPI İzleme",
+          "aciklama": "EVM, OKR, Power BI panelleri"
+        }
+      ]
+    },
+
+    {
+      "id": "fon-destek",
+      "ad": "Fon & Hibe Başvuru Yönetimi",
+      "aciklama": "Ulusal ve AB programlarında çağrı analizi, başvuru dosyası hazırlama",
+      "altHizmetler": [
+        {
+          "id": "kosgeb",
+          "ad": "KOSGEB İleri Girişim / Ar-Ge",
+          "aciklama": "İş planı, bütçe tablosu, makine-ekipman listesi"
+        },
+        {
+          "id": "tubitak",
+          "ad": "TÜBİTAK 1711-1707-1501",
+          "aciklama": "Teknik proje dokümanları, Gantt, kurum payları"
+        },
+        {
+          "id": "horizon",
+          "ad": "Horizon Europe",
+          "aciklama": "Partnership build, Work Package (WP) yazımı, C-Forms"
+        },
+        {
+          "id": "erasmus",
+          "ad": "Erasmus+ KA2 / KA210",
+          "aciklama": "Logical Framework, LTT faaliyet planı"
+        },
+        {
+          "id": "ipard",
+          "ad": "IPARD III",
+          "aciklama": "Ahır inşaatı, makine ekibi fizibilitesi, kapasite raporu"
+        },
+        {
+          "id": "yatirim-tesvik",
+          "ad": "Yatırım Teşvik Belgesi",
+          "aciklama": "Ön fizibilite, bölgesel destek analizi"
+        }
+      ]
+    },
+
+    {
+      "id": "yazilim-proje",
+      "ad": "Yazılım & Dijital Projeler",
+      "aciklama": "Django, Node.js, React, Flutter ve DevOps tabanlı teslimatlar",
+      "altHizmetler": [
+        {
+          "id": "web",
+          "ad": "Web Uygulamaları",
+          "aciklama": "MERN / Django monorepo, çok-dilli CMS entegrasyonu"
+        },
+        {
+          "id": "mobil",
+          "ad": "Mobil Çözümler",
+          "aciklama": "Flutter-React Native, CI/CD, Store yayını"
+        },
+        {
+          "id": "ai-ml",
+          "ad": "AI / ML Sistemleri",
+          "aciklama": "LLM ince ayarı, TensorRT, veri boru hattı"
+        },
+        {
+          "id": "blockchain",
+          "ad": "Blockchain & Web3",
+          "aciklama": "Cold-wallet entegrasyonu, smart-contract güvenliği"
+        }
+      ]
+    },
+
+    {
+      "id": "arge-inovasyon",
+      "ad": "Ar-Ge & Ürün İnovasyonu",
+      "aciklama": "TRL-3 → TRL-7 yol haritası, prototip ve ticarileştirme",
+      "altHizmetler": [
+        {
+          "id": "prototip",
+          "ad": "Prototip / MVP Geliştirme",
+          "aciklama": "3D yazıcı, elektronik kart tasarımı, seri sıfır"
+        },
+        {
+          "id": "pilot",
+          "ad": "Pilot & PoC Uygulamaları",
+          "aciklama": "Saha kurulumu, kullanıcı kabul testi (UAT)"
+        },
+        {
+          "id": "test",
+          "ad": "Sertifikasyon & Test",
+          "aciklama": "CE, FDA, ISO 13485/9001 hazırlığı"
+        }
+      ]
+    },
+
+    {
+      "id": "yesil-donusum",
+      "ad": "Sürdürülebilirlik & Yeşil Dönüşüm",
+      "aciklama": "Döngüsel ekonomi, karbon azaltım, enerji verimliliği projeleri",
+      "altHizmetler": [
+        {
+          "id": "karbon",
+          "ad": "Karbon Ayak İzi Analizi",
+          "aciklama": "ISO 14064, veri toplama, offset stratejisi"
+        },
+        {
+          "id": "yeni-enerji",
+          "ad": "Yenilenebilir Enerji Entegrasyonu",
+          "aciklama": "Çatı GES, BESS fizibilite, EPİAŞ süreçleri"
+        },
+        {
+          "id": "circular",
+          "ad": "Döngüsel Ekonomi Tasarımı",
+          "aciklama": "Atık hammadde geri-kazanım, LCA raporu"
+        }
+      ]
+    }
+  ]
+}

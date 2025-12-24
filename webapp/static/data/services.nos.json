@@ -1,0 +1,69 @@
+{
+  "hubId": "nos",
+  "hubAd": "NOS – Network Organization Solutions",
+  "anaHizmetler": [
+    {
+      "id": "yönetim-strateji",
+      "ad": "Yönetim & Strateji",
+      "altHizmetler": [
+        { "id": "vizyon-uyumu", "ad": "Vizyon & Hedef Uyumu" },
+        { "id": "politika-cerceve", "ad": "Politika & Çerçeve" },
+        { "id": "olgunluk-deger", "ad": "Olgunluk Değerlendirmesi" }
+      ]
+    },
+    {
+      "id": "paydas-yonetimi",
+      "ad": "Paydaş & Ortaklık Yönetimi",
+      "altHizmetler": [
+        { "id": "ic-koordinasyon", "ad": "İç Koordinasyon" },
+        { "id": "dis-ortaklik", "ad": "Dış Ortaklıklar" },
+        { "id": "katilim-programi", "ad": "Paydaş Katılım Programı" }
+      ]
+    },
+    {
+      "id": "süreç-entegrasyon",
+      "ad": "Süreç Entegrasyonu",
+      "altHizmetler": [
+        { "id": "workflow-standart", "ad": "Workflow Standardizasyonu" },
+        { "id": "servis-katalog", "ad": "Servis Kataloğu" },
+        { "id": "sla-yonetimi", "ad": "SLA Yönetimi" }
+      ]
+    },
+    {
+      "id": "bilgi-ogrenim",
+      "ad": "Bilgi & Öğrenim",
+      "altHizmetler": [
+        { "id": "bilgi-tabanı", "ad": "Kurumsal Bilgi Tabanı" },
+        { "id": "egitim-program", "ad": "Eğitim Programları" },
+        { "id": "ders-cikarsama", "ad": "Ders Çıkarma Oturumları" }
+      ]
+    },
+    {
+      "id": "performans-analiz",
+      "ad": "Performans & Analitik",
+      "altHizmetler": [
+        { "id": "kpi-paneli", "ad": "KPI Panelleri" },
+        { "id": "surekli-iyilestirme", "ad": "Sürekli İyileştirme" },
+        { "id": "raporlama", "ad": "Yönetim Raporlaması" }
+      ]
+    },
+    {
+      "id": "isbirligi-altyapi",
+      "ad": "İş Birliği Altyapısı",
+      "altHizmetler": [
+        { "id": "dijital-ortamlar", "ad": "Dijital Çalışma Ortamları" },
+        { "id": "iletisim-platform", "ad": "İletişim Platformları" },
+        { "id": "etkinlik-yonetimi", "ad": "Etkinlik & Toplantı Yönetimi" }
+      ]
+    },
+    {
+      "id": "uyum-risk",
+      "ad": "Uyum & Risk Yönetimi",
+      "altHizmetler": [
+        { "id": "risk-kayit", "ad": "Risk Kaydı" },
+        { "id": "denetim-hazirlik", "ad": "Denetim Hazırlığı" },
+        { "id": "veri-yönetişimi", "ad": "Veri Yönetişimi" }
+      ]
+    }
+  ]
+}

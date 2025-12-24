@@ -1,0 +1,67 @@
+# =============================================================================
+# BACKUP CONTAINER - Günlük Otomatik Yedekleme
+# =============================================================================
+# Cron ile her gün belirlenen saatte PostgreSQL backup alır
+#
+# Özellikler:
+# - Günlük otomatik backup (varsayılan: 02:00)
+# - 30 günden eski backup'ları otomatik siler
+# - Sıkıştırılmış backup (.sql.gz)
+# - Log dosyası ile izleme
+# =============================================================================
+
+FROM postgres:16-alpine
+
+# Timezone ayarı (Türkiye)
+ENV TZ=Europe/Istanbul
+
+# Cron ve gerekli araçları yükle
+RUN apk add --no-cache \
+    bash \
+    tzdata \
+    gzip \
+    && cp /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone
+
+# Çalışma dizini
+WORKDIR /app
+
+# Backup script'lerini kopyala
+COPY infra/data/scripts/ /app/infra/data/scripts/
+RUN chmod +x /app/infra/data/scripts/*.sh
+
+# Log ve backup dizinlerini oluştur
+RUN mkdir -p /app/logs /app/infra/data/backups
+
+# Cron job dosyası oluştur
+# Varsayılan: Her gün saat 02:00'de backup al
+RUN echo "0 2 * * * /app/infra/data/scripts/cron-backup.sh >> /app/logs/cron.log 2>&1" > /etc/crontabs/root
+
+# Startup script
+COPY --chmod=755 <<'EOF' /entrypoint.sh
+#!/bin/bash
+set -e
+
+echo "╔══════════════════════════════════════════════════════════════════╗"
+echo "║             PostgreSQL Backup Service                             ║"
+echo "╠══════════════════════════════════════════════════════════════════╣"
+echo "║  Schedule : Her gün 02:00 (Türkiye saati)                        ║"
+echo "║  Retention: 30 gün                                                ║"
+echo "║  Logs     : /app/logs/backup.log                                  ║"
+echo "╚══════════════════════════════════════════════════════════════════╝"
+echo ""
+echo "📅 Cron schedule: $(cat /etc/crontabs/root)"
+echo ""
+
+# İlk backup'ı al (opsiyonel)
+if [ "$BACKUP_ON_START" = "true" ]; then
+    echo "🔄 İlk backup alınıyor..."
+    /app/infra/data/scripts/cron-backup.sh
+fi
+
+echo "⏰ Cron daemon başlatılıyor..."
+exec crond -f -l 2
+EOF
+
+ENTRYPOINT ["/entrypoint.sh"]
+

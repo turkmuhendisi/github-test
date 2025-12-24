@@ -1,0 +1,68 @@
+# =============================================================================
+# PRODUCTION DOCKERFILE
+# =============================================================================
+# Multi-stage build, optimized ve secure
+
+# -----------------------------------------------------------------------------
+# Stage 1: Builder
+# -----------------------------------------------------------------------------
+    FROM python:3.12-slim as builder
+
+    ENV PYTHONDONTWRITEBYTECODE=1
+    ENV PYTHONUNBUFFERED=1
+    
+    WORKDIR /app
+    
+    # System dependencies for building
+    RUN apt-get update && apt-get install -y \
+        libpq-dev \
+        gcc \
+        && rm -rf /var/lib/apt/lists/*
+    
+    # Python dependencies
+    COPY tools/requirements/ ./tools/requirements/
+    RUN pip install --no-cache-dir -r tools/requirements/prod.txt
+    
+    # -----------------------------------------------------------------------------
+    # Stage 2: Production
+    # -----------------------------------------------------------------------------
+    FROM python:3.12-slim
+    
+    ENV PYTHONDONTWRITEBYTECODE=1
+    ENV PYTHONUNBUFFERED=1
+    ENV DJANGO_ENV=production
+    ENV DJANGO_DEBUG=False
+    
+    WORKDIR /app
+    
+    # Runtime dependencies only
+    RUN apt-get update && apt-get install -y \
+        libpq-dev \
+        curl \
+        && rm -rf /var/lib/apt/lists/*
+    
+    # Copy Python packages from builder
+    COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+    COPY --from=builder /usr/local/bin /usr/local/bin
+    
+    # Application code
+    COPY . .
+    
+    # Static files (webapp projesi için)
+    RUN python webapp/manage.py collectstatic --noinput
+    
+    # Create non-root user
+    RUN useradd -m -u 1000 appuser \
+        && chown -R appuser:appuser /app
+    
+    USER appuser
+    
+    # Health check
+    HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+        CMD curl -f http://localhost:8000/health/ || exit 1
+    
+    # Port
+    EXPOSE 8000
+    
+    # Gunicorn
+    CMD ["gunicorn", "--config", "infra/gunicorn/gunicorn.conf.py", "config.hub.wsgi:application"]

@@ -1,0 +1,78 @@
+{
+  "hubId": "network",
+  "hubAd": "Network Organizasyon Çözümleri",
+  "anaHizmetler": [
+    {
+      "id": "tasarim",
+      "ad": "Ağ Stratejisi & Tasarımı",
+      "altHizmetler": [
+        { "id": "ihtiyac-analizi", "ad": "İhtiyaç Analizi" },
+        { "id": "kapasite-plan", "ad": "Kapasite Planlama" },
+        { "id": "topoloji", "ad": "Topoloji & High-Availability" }
+      ]
+    },
+    {
+      "id": "kurulum",
+      "ad": "Kurulum & Konfigürasyon",
+      "altHizmetler": [
+        { "id": "switching", "ad": "Switching Yapılandırması" },
+        { "id": "routing", "ad": "Routing (OSPF/BGP)" },
+        { "id": "firewall", "ad": "Firewall Dağıtımı" }
+      ]
+    },
+    {
+      "id": "guvenlik",
+      "ad": "Ağ Güvenliği & Uyum",
+      "altHizmetler": [
+        { "id": "zero-trust", "ad": "Zero-Trust Mimarisi" },
+        { "id": "ids-ips", "ad": "IDS / IPS Sistemleri" },
+        { "id": "sizma-testi", "ad": "Sızma Testi & Zafiyet Analizi" }
+      ]
+    },
+    {
+      "id": "izleme",
+      "ad": "İzleme & Optimizasyon",
+      "altHizmetler": [
+        { "id": "snmp", "ad": "SNMP / NetFlow İzleme" },
+        { "id": "nms", "ad": "Ağ Yönetim Sistemi (NMS)" },
+        { "id": "performans", "ad": "Performans & Kapasite Yönetimi" }
+      ]
+    },
+    {
+      "id": "kablosuz",
+      "ad": "Kablosuz & Mobilite",
+      "altHizmetler": [
+        { "id": "wifi-6", "ad": "Wi-Fi 6/6E Dağıtımı" },
+        { "id": "rf-analiz", "ad": "RF Site Survey & Optimizasyon" },
+        { "id": "mobil-entegrasyon", "ad": "Kurumsal Mobilite (MDM)" }
+      ]
+    },
+    {
+      "id": "bulut-dc",
+      "ad": "Bulut & Veri Merkezi",
+      "altHizmetler": [
+        { "id": "hybrid-conn", "ad": "Hybrid Connect (VPN/GW)" },
+        { "id": "load-balancer", "ad": "Load Balancer & ADC" },
+        { "id": "container-net", "ad": "Container Networking (CNI)" }
+      ]
+    },
+    {
+      "id": "sd-wan",
+      "ad": "SD-WAN & Uzak Ofis",
+      "altHizmetler": [
+        { "id": "edge-provision", "ad": "Edge Cihaz Provizyonu" },
+        { "id": "policy-routing", "ad": "Policy-Based Routing" },
+        { "id": "sase", "ad": "SASE Entegrasyonu" }
+      ]
+    },
+    {
+      "id": "otomasyon",
+      "ad": "Network Otomasyonu & DevOps",
+      "altHizmetler": [
+        { "id": "ansible", "ad": "Ansible Playbook Otomasyonu" },
+        { "id": "ci-cd-netops", "ad": "CI/CD NetOps Boru Hattı" },
+        { "id": "api-entegrasyon", "ad": "Ağ API Entegrasyonları" }
+      ]
+    }
+  ]
+}

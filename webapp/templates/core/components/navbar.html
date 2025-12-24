@@ -1,0 +1,172 @@
+{# =============================================================================
+   ASRIN CORE - Navbar Component
+   =============================
+   
+   Merkezi navbar bileşeni.
+   
+   Kullanım:
+   --------
+   {% include "core/components/navbar.html" %}
+   
+   veya override ile:
+   {% include "core/components/navbar.html" with brand_name="MyProject" %}
+============================================================================= #}
+
+<nav class="ag-navbar">
+    <div class="ag-container ag-navbar-inner">
+        {# Brand/Logo #}
+        <a href="{% url 'home' %}" class="ag-navbar-brand">
+            {% block navbar_brand %}
+            <span class="ag-logo">{{ brand_name|default:"Asrın Global" }}</span>
+            {% endblock %}
+        </a>
+        
+        {# Mobile Toggle #}
+        <button class="ag-navbar-toggle" type="button" aria-label="Menüyü aç/kapat" aria-expanded="false">
+            <span class="ag-navbar-toggle-icon"></span>
+        </button>
+        
+        {# Navigation Links #}
+        <div class="ag-navbar-collapse">
+            <ul class="ag-navbar-nav">
+                {% block navbar_links %}
+                <li class="ag-nav-item">
+                    <a href="{% url 'home' %}" class="ag-nav-link">Ana Sayfa</a>
+                </li>
+                {% endblock %}
+            </ul>
+            
+            {# Right Side Items #}
+            <div class="ag-navbar-right">
+                {% block navbar_right %}
+                {% if user.is_authenticated %}
+                <div class="ag-dropdown">
+                    <button class="ag-dropdown-toggle" type="button">
+                        {{ user.get_short_name|default:user.username }}
+                    </button>
+                    <div class="ag-dropdown-menu">
+                        <a href="{% url 'admin:index' %}" class="ag-dropdown-item">Admin Panel</a>
+                        <a href="{% url 'logout' %}" class="ag-dropdown-item">Çıkış Yap</a>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'login' %}" class="ag-btn ag-btn-outline">Giriş Yap</a>
+                {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+.ag-navbar {
+    background: var(--ag-secondary);
+    padding: var(--ag-spacing-sm) 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--ag-shadow-md);
+}
+
+.ag-navbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ag-navbar-brand {
+    color: var(--ag-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.ag-navbar-nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--ag-spacing-md);
+}
+
+.ag-nav-link {
+    color: var(--ag-white);
+    text-decoration: none;
+    padding: var(--ag-spacing-sm) var(--ag-spacing-md);
+    border-radius: var(--ag-radius-sm);
+    transition: background var(--ag-transition-fast);
+}
+
+.ag-nav-link:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.ag-navbar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--ag-spacing-sm);
+}
+
+.ag-navbar-toggle-icon {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--ag-white);
+    position: relative;
+}
+
+.ag-navbar-toggle-icon::before,
+.ag-navbar-toggle-icon::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    left: 0;
+}
+
+.ag-navbar-toggle-icon::before { top: -8px; }
+.ag-navbar-toggle-icon::after { top: 8px; }
+
+@media (max-width: 768px) {
+    .ag-navbar-toggle {
+        display: block;
+    }
+    
+    .ag-navbar-collapse {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--ag-secondary);
+        padding: var(--ag-spacing-md);
+    }
+    
+    .ag-navbar-collapse.show {
+        display: block;
+    }
+    
+    .ag-navbar-nav {
+        flex-direction: column;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.querySelector('.ag-navbar-toggle');
+    const collapse = document.querySelector('.ag-navbar-collapse');
+    
+    if (toggle && collapse) {
+        toggle.addEventListener('click', function() {
+            collapse.classList.toggle('show');
+            const expanded = collapse.classList.contains('show');
+            toggle.setAttribute('aria-expanded', expanded);
+        });
+    }
+});
+</script>
+

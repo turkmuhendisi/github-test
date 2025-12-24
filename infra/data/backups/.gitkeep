@@ -1,0 +1,3 @@
+# PostgreSQL backup dosyaları bu klasörde saklanır
+# .sql dosyaları gitignore ile dışlanmıştır
+

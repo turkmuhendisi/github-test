@@ -1,0 +1,793 @@
+/*  
+    ASRIN GLOBAL – LANDING PAGE
+    ---------------------------------------------------------------------
+    File  : home-style.css
+    Vers. : 1.2  (2025-07-08)
+    ---------------------------------------------------------------------
+       📑 TABLE OF CONTENTS
+       --------------------
+       0. Imports & Root Vars
+       1. Global Reset & Typography
+       2. Cards
+       3. Details Panel
+       4. Navigation Bar
+          4.1  Hamburger Button
+          4.2  Dropdown Menu ★
+          4.3  Contrast & Language Switcher
+       5. Progress Indicator & Pagination
+       6. Contrast Helpers
+       7. Discover Button
+       8. Slide-in Sidebar
+          8.1  3-Pane Layout
+          8.2  Close Button (×)
+          8.3  Search Box
+       9. Misc Utilities
+      10. Logo (Fixed) ★
+      11. Sidebar Typography & Lists
+      12. Crypto Footer Tabs ★
+      13. Responsive – Mobile  (TODO)
+     */
+
+/* ============================================================
+   0 ░ IMPORTS & ROOT VARS
+============================================================ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500&display=swap");
+
+:root {
+  --ag-yellow: #ecad29; /* Tema rengi                         */
+  --sidebar-width: 350px; /*★ Sidebar genişliği (tek kaynak)   */
+}
+
+/* ============================================================
+   1 ░ GLOBAL RESET & TYPOGRAPHY
+============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #1a1a1a;
+  color: #ffffffdd;
+  font-family: "Inter", sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ============================================================
+   2 ░ CARDS
+============================================================ */
+.card {
+  position: absolute;
+  inset: 0 auto auto 0;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 6px 6px 10px 2px rgba(0, 0, 0, 0.6);
+}
+
+.card-content {
+  position: absolute;
+  inset: 0 auto auto 0;
+  padding-left: 16px;
+  color: #ffffffdd;
+  transition: color 0.3s ease;
+}
+
+.content-start {
+  width: 30px;
+  height: 5px;
+  border-radius: 99px;
+  background: #ffffffdd;
+}
+
+.content-place {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.content-title-1,
+.content-title-2 {
+  font: 600 20px/1 "Oswald", sans-serif;
+}
+
+/* ============================================================
+   3 ░ DETAILS PANEL
+============================================================ */
+.details {
+  position: absolute;
+  top: 240px;
+  left: 60px;
+  width: 500px;
+  z-index: 22;
+  transition: color 0.3s ease;
+}
+
+.details .place-box {
+  height: 46px;
+  overflow: hidden;
+  position: relative;
+}
+
+.details .place-box .text {
+  padding-top: 16px;
+  font-size: 20px;
+}
+
+.details .place-box .text::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 30px;
+  height: 4px;
+  border-radius: 99px;
+  background: #fff;
+}
+
+.details .title-1,
+.details .title-2 {
+  font: 600 72px/1 "Oswald", sans-serif;
+}
+
+.details .title-box-1,
+.details .title-box-2 {
+  height: 100px;
+  margin-top: 2px;
+  overflow: hidden;
+}
+
+.details .cta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.details .cta .bookmark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 99px;
+  background: var(--ag-yellow);
+  color: #fff;
+}
+
+.details .cta .discover {
+  height: 36px;
+  padding: 0 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #fff;
+  border-radius: 99px;
+  background: transparent;
+  color: #fff;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.details > .desc {
+  text-align: justify;
+  hyphens: auto;
+  text-align-last: left;
+}
+
+.details-hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  height: 0 !important;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.details,
+.card,
+.pagination {
+  z-index: 10; 
+}
+
+/* ============================================================
+   4 ░ NAVIGATION BAR
+============================================================ */
+nav {
+  position: fixed;
+  inset: 0 0 auto; /* top:0; left:0; right:0 */
+  height: 64px; /* referans değer */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  z-index: 999;
+}
+
+/* 4.1 ░ Hamburger Button */
+.menu-toggle {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  width: 32px;
+  height: 26px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  margin: 5px 0;
+  background: var(--ag-yellow);
+  border-radius: 3px;
+  transition: 0.3s;
+}
+
+.menu-toggle.open span:nth-child(1) {transform: translateY(7px) rotate(45deg);}
+.menu-toggle.open span:nth-child(2) {opacity: 0;}
+.menu-toggle.open span:nth-child(3) {transform: translateY(-7px) rotate(-45deg);}
+
+
+/* 4.2 ░ DROPDOWN MENU  ★★★ */
+.menu-links {
+  position:fixed;
+  top:60px;                     /* nav’ın hemen altı + 16 px */
+  left:50%;                     /* merkeze hizala            */
+  transform:translateX(-50%);   /* tam ortalama              */
+
+  display:none;                 /* .open → flex              */
+  flex-direction:row;           /* ★ yatay dizilim           */
+  gap:.2rem;
+
+  padding:.9rem 1.6rem;
+  list-style:none;
+
+  /* ───────── Cam efekti ───────── */
+  padding:.9rem 1rem;
+  background:rgba(255,255,255,.10);                 /* hafif beyaz film */
+  backdrop-filter:blur(18px) saturate(1.5);           /* asıl blur        */
+  -webkit-backdrop-filter:blur(14px) saturate(1.2);   /* Safari           */
+  border-radius:12px;
+  box-shadow:0 8px 22px rgba(0,0,0,.35);
+
+  /* Kenarlıkları: sağ-sol yok, üst-alt sarı  */
+  border-top:1px solid var(--ag-yellow);
+  border-bottom:1px solid var(--ag-yellow);
+  border-left:none;
+  border-right:none;
+
+  /* ───────── Sınırlar ───────── */
+  width:max-content;
+  max-width:90vw;          /* mobil güvenliği            */
+  z-index:1200;
+}
+
+/* ► Sidebar açıldığında menüyü sola kaydır */
+body.sidebar-open .menu-links {right: calc(24px + var(--sidebar-width));}
+
+.menu-links.open {display: flex;}
+
+/* ► Menü öğeleri */
+.menu-links li{
+  padding:.25rem .55rem;
+  color:#fff;
+  white-space:nowrap;
+  font-weight:500;
+  cursor:pointer;
+  transition:color .2s;
+}
+
+.menu-links li:hover,
+.menu-links .active {
+  color: var(--ag-yellow);
+}
+
+.menu-toggle.open span{ background:var(--ag-yellow); }
+
+/* 4.3 ░ Contrast & Language Switcher */
+/* (orijinal kurallar değişmedi) */
+nav.menu-light .menu-links li,
+nav.menu-light .menu-links .active{color:#fff;}
+nav.menu-dark  .menu-links li,
+nav.menu-dark  .menu-links .active{color:#111;}
+nav.menu-light .menu-links li:hover,
+nav.menu-dark  .menu-links li:hover{color:var(--ag-yellow);}
+
+.language-switcher {
+  position: fixed;
+  top: 20px;
+  right: 80px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 1001;
+}
+
+.language-switcher button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: transform 0.2s ease, opacity 0.2s;
+}
+
+.language-switcher button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+.language-switcher button[disabled] {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.language-switcher svg {
+  width: 36px;
+  height: 26px;
+}
+
+/* ============================================================
+   5 ░ PROGRESS INDICATOR & PAGINATION
+============================================================ */
+.indicator {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--ag-yellow);
+  z-index: 60;
+}
+
+.pagination {
+  position: absolute;
+  inset: 0 auto auto 0;
+  display: inline-flex;
+}
+
+.pagination .arrow {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #ffffff55;
+  border-radius: 999px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.pagination .arrow:hover {
+  border-color: var(--ag-yellow);
+  background: rgba(236, 173, 41, 0.09);
+}
+
+.pagination .arrow svg {
+  width: 24px;
+  height: 24px;
+  color: #ffffff99;
+  stroke-width: 2;
+  transition: color 0.2s;
+}
+
+.pagination .arrow:hover svg {
+  color: var(--ag-yellow);
+}
+.pagination .arrow:nth-child(2) {
+  margin-left: 10px;
+}
+
+.progress-sub-container {
+  width: 500px;
+  height: 50px;
+  margin-left: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.progress-sub-background {
+  flex: 1;
+  height: 3px;
+  background: #ffffff33;
+}
+
+.progress-sub-foreground {
+  height: 3px;
+  background: var(--ag-yellow);
+}
+
+/* Kaydırılabilir slide numaraları */
+.slide-numbers {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+.slide-numbers .item {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ============================================================
+   6 ░ CONTRAST HELPERS
+============================================================ */
+.card-content.light .content-place,
+.card-content.light .content-title-1,
+.card-content.light .content-title-2,
+.details.light .place-box .text,
+.details.light .title-1,
+.details.light .title-2,
+.details.light .desc {
+  color: #111;
+}
+
+.card-content.dark .content-place,
+.card-content.dark .content-title-1,
+.card-content.dark .content-title-2,
+.details.dark .place-box .text,
+.details.dark .title-1,
+.details.dark .title-2 {
+  color: #fff;
+}
+
+.details.light .discover {
+  color: #111;
+  border-color: #111;
+}
+.details.light .discover:hover {
+  color: var(--ag-yellow);
+  border-color: var(--ag-yellow);
+}
+
+#sidebar.light,
+#sidebar.light * {
+  color: #111;
+}
+
+#sidebar.dark,
+#sidebar.dark * {
+  color: #fff;
+}
+
+/* ============================================================
+   7 ░ DISCOVER BUTTON
+============================================================ */
+.discover {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  font: 500 0.9rem/1 "Inter";
+  border: 1.5px solid currentColor;
+  background: transparent;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s;
+}
+
+.discover:hover {
+  color: var(--ag-yellow) !important;
+  border-color: var(--ag-yellow) !important;
+}
+
+/* ============================================================
+   8 ░ SLIDE-IN SIDEBAR (Discover)
+============================================================ */
+.sidebar {
+  position: fixed;
+  top: 5px;
+  left: 0;
+  width:var(--sidebar-width); 
+  height: 100vh;
+  padding: 28px 24px;
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #111;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.25);
+  transform:translateX(calc(-1 * var(--sidebar-width))); /*★ kapalı */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1002;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar.open {
+  transform: translateX(100px);
+}
+
+/* 8.2 ░ Sidebar 3 Bölmeli Yapı */
+#sidebar-structure {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 16px;
+}
+
+.sidebar-top {
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ffffff33;
+}
+
+.sidebar-top h3 {
+  margin: 6px 0 12px;
+  padding-bottom: 4px;
+  text-align: center;
+  font: 700 1.3rem/1 "Oswald", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--ag-yellow);
+}
+
+.sidebar-middle {
+  flex: 1;
+  padding: 12px 0;
+}
+.sidebar-bottom {
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #ffffff33;
+}
+
+.sidebar-bottom .primary {
+  padding: 0.55rem 1.3rem;
+  background: var(--ag-yellow);
+  color: #111;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+hr.sidebar-divider {
+  width: 100%;
+  height: 1px;
+  margin: 12px 0;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+}
+
+/* Medya içerikleri */
+.sidebar-middle img,
+.sidebar-middle video {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-middle p {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #222;
+  opacity: 0.85;
+  text-align: justify;
+  text-indent: 1rem;
+}
+
+/* 8.3 ░ Sidebar Close Button (×) */
+.sidebar-close {
+  position: absolute;
+  top: 16px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  background: rgba(236, 173, 41, 0.15);
+  color: #111;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background 0.25s, color 0.25s, transform 0.25s;
+  z-index: 200;
+}
+
+.sidebar-close:hover,
+.sidebar-close:focus-visible,
+.sidebar-close:active {
+  background: var(--ag-yellow);
+  color: #141414;
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* 8.4 ░ Sidebar Search */
+.sidebar-search {
+  width: 100%;
+  padding: 0.55rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 9999px;
+  outline: none;
+  font-family: inherit;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.sidebar-search:focus {
+  border-color: var(--ag-yellow);
+  box-shadow: 0 0 0 2px rgba(236, 173, 41, 0.2);
+}
+
+/* ============================================================
+   9 ░ MISC UTILITIES
+============================================================ */
+.cover {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  z-index: 100;
+}
+
+/* ============================================================
+   10 ░ LOGO (FIXED)
+============================================================ */
+.brand-fixed {
+  position: fixed;
+  top: 16px;
+  left: 140px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font: 600 18px/1 "Inter", sans-serif;
+  color: #fff;
+  text-decoration: none;
+  transition: left 0.3s ease;
+  z-index: 1010;
+}
+
+body.sidebar-open .brand-fixed{left:calc(140px + var(--sidebar-width));} /*★*/
+
+
+/* ============================================================
+   11 ░ SIDEBAR TYPOGRAPHY & LISTS
+============================================================ */
+#sidebar-content {
+  margin-top: 48px;
+  padding-top: 8px;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  font: 15px/1.6 "Inter", sans-serif;
+  color: #e6e6e6;
+  text-rendering: optimizeLegibility;
+}
+
+#sidebar-content::-webkit-scrollbar {
+  display: none;
+}
+
+#sidebar h2 {
+  margin: 0 0 0.75rem;
+  font: 700 1.75rem/1 "Oswald", sans-serif;
+  color: var(--ag-yellow);
+}
+
+#sidebar h3 {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ag-yellow);
+}
+
+#sidebar ul {
+  margin: 0;
+  padding: 0 1.1rem;
+  list-style: none;
+}
+
+#sidebar ul li {
+  position: relative;
+  margin-bottom: 0.9rem;
+  line-height: 1.4;
+}
+
+#sidebar ul li::before {
+  content: "•";
+  position: absolute;
+  left: -1rem;
+  color: var(--ag-yellow);
+  font-size: 1.1rem;
+}
+
+.sb-list {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.sb-list li {
+  position: relative;
+  margin-bottom: 10px;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #333;
+  text-align: justify;
+}
+
+.sb-list li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--ag-yellow);
+  font-weight: bold;
+}
+
+/* ============================================================
+   12 ░ ALT KRİPTO MENÜ TAB – ANA CARD STİLİ
+============================================================ */
+.crypto-tab-link {
+  position: fixed;
+  bottom: 0;
+  left: 470px;
+  z-index: 1000;
+}
+
+.crypto-tab-card {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 180px;
+  padding: 10px 24px 12px;
+  background: #111;
+  color: var(--ag-yellow);
+  font: 600 0.95rem/1 "Inter", sans-serif;
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.crypto-tab-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+}
+.crypto-tab-card:active {
+  transform: scale(0.96);
+}
+
+.crypto-tab-card .icon {
+  font-size: 1.25rem;
+}
+
+.store-tab {
+  left: 670px;
+}
+
+/* Three-sided çizgi stili */
+.crypto-tab-card.three-sided {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 2px solid var(--ag-yellow);
+  border-bottom: none;
+  border-radius: 0;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  margin-bottom: 8px;
+}

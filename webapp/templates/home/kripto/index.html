@@ -1,0 +1,50 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}UKAB INOVASYON VE TEKNOLOJİ VAKFI{% endblock %}
+
+{% block page_css %}
+
+  <link rel="stylesheet" href="{% static 'home/kripto/style.css' %}">
+  <link rel="stylesheet" href="{% static 'home/footer/style.css' %}">
+
+{% endblock %}
+
+{% block page_js %}
+  <script src="{% static 'home/kripto/script.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  <header class="hero">
+    <h1 class="hero-line">Medeniyet 1.0</h1>
+    <h2 class="hero-line">UKAB İNOVASYON VE TEKNOLOJİ VAKFI | Mükemmeliyet Merkezi</h2>
+    <h3 class="hero-line">Asrın Global</h3>
+  </header>
+
+  <!-- Başlangıçta gizli -->
+  <aside id="choices" class="hidden">
+    <ol></ol>
+  </aside>
+
+  <div class="container">
+    <ul id="menu3d"></ul>
+
+    <div class="controls">
+      <div class="nav-row">
+        <!-- ▲ ▼ Seç  ⇒  aynı satır -->
+        <button class="arrow" onclick="adjust(-1)">▲</button>
+        <button class="arrow" onclick="adjust( 1)">▼</button>
+        <button id="selectBtn">Seç</button>
+      </div>
+    </div>
+  </div>
+
+  <button id="backBtn" class="hidden">Geri</button>
+
+  <!-- Ortak footer tab menü -->
+  {% include "layouts/footer-tabs.html" %}
+
+  <script>
+    window.STATIC_BASE = "{% static 'data/' %}";
+  </script>
+{% endblock %}

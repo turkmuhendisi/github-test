@@ -1,0 +1,215 @@
+# =============================================================================
+# ASRIN GLOBAL - Merkezi Ayar Yönetim Sistemi
+# =============================================================================
+# Bu dosya, GlobalMain projesini pip installable package haline getirir.
+# Diğer projeler bu paketi kalıtım yoluyla kullanabilir.
+#
+# Kullanım:
+#   pip install git+https://github.com/asringlobal/globalmain.git@main#subdirectory=.v1
+#   veya
+#   pip install -e /path/to/globalmain/.v1[dev]
+#
+# =============================================================================
+
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "asrin-core"
+version = "1.0.0"
+description = "Asrın Global - Merkezi Ayar Yönetim Sistemi (Django Enterprise Framework)"
+readme = "README.md"
+license = {text = "Proprietary"}
+requires-python = ">=3.11"
+authors = [
+    {name = "Asrın Global", email = "dev@asringlobal.com"}
+]
+keywords = [
+    "django",
+    "enterprise",
+    "config-management",
+    "centralized-settings",
+    "asrin-global"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: Django :: 5.2",
+    "Intended Audience :: Developers",
+    "License :: Other/Proprietary License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+# Core dependencies
+dependencies = [
+    "Django>=5.2,<6.0",
+    "python-decouple>=3.8",
+    "psycopg2-binary>=2.9.9",
+    "redis>=5.0",
+    "gunicorn>=21.0",
+    "whitenoise>=6.6",
+]
+
+[project.optional-dependencies]
+# Development dependencies
+dev = [
+    "django-extensions>=3.2",
+    "django-debug-toolbar>=4.2",
+    "ipython>=8.0",
+    "pytest>=7.4",
+    "pytest-django>=4.5",
+    "black>=23.0",
+    "flake8>=6.0",
+    "isort>=5.12",
+    "pre-commit>=3.5",
+]
+# Production dependencies
+prod = [
+    "sentry-sdk>=1.32",
+    "django-storages>=1.14",
+    "boto3>=1.28",
+]
+# Full installation (all extras)
+all = [
+    "asrin-core[dev,prod]",
+]
+
+[project.urls]
+Homepage = "https://github.com/asringlobal/globalmain"
+Documentation = "https://docs.asringlobal.com"
+Repository = "https://github.com/asringlobal/globalmain"
+Issues = "https://github.com/asringlobal/globalmain/issues"
+
+[project.scripts]
+asrin-init = "tools.cli.init:main"
+asrin-update = "tools.cli.update:main"
+asrin-sync = "tools.cli.sync:main"
+
+# =============================================================================
+# SETUPTOOLS CONFIGURATION
+# =============================================================================
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "config*",
+    "infra*", 
+    "logs*",
+    "secure*",
+    "services*",
+    "tools*",
+    "webapp*",
+    "locale*",
+]
+exclude = [
+    "tests*",
+    "docs*",
+    "__pycache__*",
+    "*.pyc",
+]
+
+[tool.setuptools.package-data]
+"*" = [
+    "*.html",
+    "*.css",
+    "*.js",
+    "*.json",
+    "*.yaml",
+    "*.yml",
+    "*.txt",
+    "*.md",
+    "*.po",
+    "*.mo",
+    "*.png",
+    "*.jpg",
+    "*.svg",
+    "*.ico",
+    "*.woff",
+    "*.woff2",
+    "*.ttf",
+    "*.eot",
+]
+
+# =============================================================================
+# TOOL CONFIGURATIONS
+# =============================================================================
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+known_django = ["django"]
+known_first_party = ["config", "webapp", "services", "tools", "logs", "secure"]
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+skip = [".venv", "migrations"]
+
+[tool.pytest.ini_options]
+# Django settings module
+DJANGO_SETTINGS_MODULE = "config.settings"
+# Python path
+pythonpath = ["."]
+# Test discovery
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+# Plugins
+addopts = [
+    "--strict-markers",
+    "-ra",
+    "-q",
+    "--tb=short",
+]
+# Markers
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "e2e: marks tests as end-to-end tests",
+    "unit: marks tests as unit tests",
+]
+# Filter warnings
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["config", "webapp", "services", "tools", "logs", "secure"]
+omit = ["*/migrations/*", "*/tests/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]
+
